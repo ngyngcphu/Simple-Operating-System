@@ -412,7 +412,7 @@ int validate_overlap_vm_area(struct pcb_t *caller, int vmaid, int vmastart, int 
   /* TODO validate the planned memory area is not overlapped */
 
   struct vm_area_struct *newarea = get_vma_by_num(caller->mm, vmaid);
-  newarea->vm_end = vmaend;
+  newarea->vm_end += vmaend - vmastart;
 
   while (vma != NULL)
   {
