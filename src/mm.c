@@ -88,24 +88,31 @@ int vmap_page_range(struct pcb_t *caller,           // process call
                     struct framephy_struct *frames, // list of the mapped frames
                     struct vm_rg_struct *ret_rg)    // return mapped region, the real mapped fp
 {                                                   // no guarantee all given pages are mapped
-  // uint32_t * pte = malloc(sizeof(uint32_t));
-  struct framephy_struct *fpit = malloc(sizeof(struct framephy_struct));
-  // int  fpn;
+  uint32_t *pte = malloc(sizeof(uint32_t));
+  struct framephy_struct *fpit;
   int pgit = 0;
   int pgn = PAGING_PGN(addr);
 
-  ret_rg->rg_end = ret_rg->rg_start = addr; // at least the very first space is usable
-
-  fpit->fp_next = frames;
+  ret_rg->rg_start = addr; // at least the very first space is usable
+  ret_rg->rg_end = ret_rg->rg_start + pgnum * PAGING_PAGESZ; 
 
   /* TODO map range of frame to address space
    *      [addr to addr + pgnum*PAGING_PAGESZ
    *      in page table caller->mm->pgd[]
    */
+  for (; pgit < pgnum; ++pgit)
+  {
+    *pte = caller->mm->pgd[pgn + pgit];
+    fpit = frames;
+    pte_set_fpn(pte, fpit->fpn);
+    frames = frames->fp_next;
+    free(fpit);
 
-  /* Tracking for later page replacement activities (if needed)
-   * Enqueue new usage page */
-  enlist_pgn_node(&caller->mm->fifo_pgn, pgn + pgit);
+    /* Tracking for later page replacement activities (if needed)
+     * Enqueue new usage page */
+    enlist_pgn_node(&caller->mm->fifo_pgn, pgn + pgit);
+  }
+  free(pte);
 
   return 0;
 }
@@ -133,13 +140,20 @@ int alloc_pages_range(struct pcb_t *caller, int req_pgnum, struct framephy_struc
     }
     else
     { // ERROR CODE of obtaining somes but not enough frames
-      if (*frm_lst != NULL)
+      if (*frm_lst == NULL)
       {
-        return -3000;
+        return -1;
       }
       else
       {
-        return -1;
+        struct framephy_struct *freefp_str;
+        while (*frm_lst != NULL)
+        {
+          freefp_str = *frm_lst;
+          *frm_lst = (*frm_lst)->fp_next;
+          free(freefp_str);
+        }
+        return -3000;
       }
     }
   }
