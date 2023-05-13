@@ -131,7 +131,9 @@ int __free(struct pcb_t *caller, int vmaid, int rgid)
     return -1;
 
   /* TODO: Manage the collect freed region to freerg_list */
-
+  rgnode = *get_symrg_byid(caller->mm, rgid);
+  rgnode.rg_start = rgnode.rg_end = -1;
+  rgnode.rg_next = NULL;
   /*enlist the obsoleted memory region */
   enlist_vm_freerg_list(caller->mm, rgnode);
 
