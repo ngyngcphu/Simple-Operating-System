@@ -363,7 +363,7 @@ int free_pcb_memph(struct pcb_t *caller)
   {
     pte = caller->mm->pgd[pagenum];
 
-    if (!PAGING_PAGE_PRESENT(pte))
+    if (PAGING_PAGE_PRESENT(pte))
     {
       fpn = PAGING_FPN(pte);
       MEMPHY_put_freefp(caller->mram, fpn);
@@ -426,7 +426,7 @@ int validate_overlap_vm_area(struct pcb_t *caller, int vmaid, int vmastart, int 
 
   while (vma != NULL)
   {
-    if (!(vma->vm_end <= newarea->vm_start || newarea->vm_end <= newarea->vm_start))
+    if (OVERLAP(newarea->vm_start,newarea->vm_end,vma->vm_start,vma->vm_end))
     {
       return -1;
     }
