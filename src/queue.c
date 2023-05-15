@@ -36,6 +36,17 @@ struct pcb_t *dequeue(struct queue_t *q)
                 return NULL;
         }
         struct pcb_t *temp = q->proc[0];
+
+#ifdef MLQ_SCHED
+        int length = q->size - 1; 
+        for (int i = 0; i < length; ++i)
+        {
+                q->proc[i] = q->proc[i + 1];
+        }
+        q->proc[length] = NULL;
+        q->size--;
+        return temp;
+#else
         int index = 0;
         int length = q->size;
         for (int i = 1; i < length; ++i)
@@ -49,6 +60,6 @@ struct pcb_t *dequeue(struct queue_t *q)
         q->proc[index] = q->proc[length - 1];
         q->proc[length - 1] = NULL;
         q->size--;
-
         return temp;
+#endif
 }
