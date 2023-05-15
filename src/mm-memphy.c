@@ -162,11 +162,11 @@ int MEMPHY_dump(struct memphy_struct *mp)
    /*TODO dump memphy contnt mp->storage
     *     for tracing the memory content
     */
-   printf("Memory dump:\n");
-   for (int i = 0; i < mp->maxsz; ++i)
-   {
-      printf("BYTE %05x: %02x\n", i, mp->storage[i]);
-   }
+   // printf("Memory dump:\n");
+   // for (int i = 0; i < mp->maxsz; ++i)
+   // {
+   //    printf("BYTE %05x: %02x\n", i, mp->storage[i]);
+   // }
    return 0;
 }
 
