@@ -45,7 +45,7 @@ struct vm_area_struct *get_vma_by_num(struct mm_struct *mm, int vmaid)
   if (mm->mmap == NULL)
     return NULL;
 
-  int vmait = 0;
+  int vmait = pvma->vm_id;
 
   while (vmait < vmaid)
   {
@@ -53,7 +53,7 @@ struct vm_area_struct *get_vma_by_num(struct mm_struct *mm, int vmaid)
       return NULL;
 
     pvma = pvma->vm_next;
-    vmait++;
+    vmait = pvma->vm_next->vm_id;
   }
 
   return pvma;
@@ -439,13 +439,13 @@ int validate_overlap_vm_area(struct pcb_t *caller, int vmaid, int vmastart, int 
 {
   if (vmastart >= vmaend)
   {
-    return -1;
+    return 0;
   }
 
   struct vm_area_struct *vma = caller->mm->mmap;
   if (vma == NULL)
   {
-    return -1;
+    return 0;
   }
 
   /* TODO validate the planned memory area is not overlapped */
@@ -455,6 +455,10 @@ int validate_overlap_vm_area(struct pcb_t *caller, int vmaid, int vmastart, int 
 
   while (vma != NULL)
   {
+    if (vma->vm_end > newarea->vm_end)
+    {
+      break;
+    }
     if (OVERLAP(newarea->vm_start, newarea->vm_end, vma->vm_start, vma->vm_end))
     {
       return -1;
