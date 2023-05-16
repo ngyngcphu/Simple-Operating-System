@@ -7,7 +7,7 @@
 #define MM_PAGING
 #define MM_FIXED_MEMSZ
 //#define VMDBG 1
-//#define MMDBG 1
+#define MMDBG 1
 #define IODUMP 1
 #define PAGETBL_DUMP 1
 

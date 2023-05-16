@@ -359,6 +359,11 @@ int pgwrite(
     uint32_t destination, // Index of destination register
     uint32_t offset)
 {
+  int val = __write(proc, 0, destination, offset, data);
+  if (val == -1)
+  {
+    return -1;
+  }
 #ifdef IODUMP
 
 #ifdef OUTPUT_FOLDER
@@ -373,7 +378,7 @@ int pgwrite(
   MEMPHY_dump(proc->mram);
 #endif
 
-  return __write(proc, 0, destination, offset, data);
+  return val;
 }
 
 /*free_pcb_memphy - collect all memphy of pcb
@@ -492,6 +497,7 @@ int inc_vma_limit(struct pcb_t *caller, int vmaid, int inc_sz)
   /* The obtained vm area (only)
    * now will be alloc real ram region */
   cur_vma->vm_end += inc_sz;
+  cur_vma->sbrk += inc_sz;
   if (vm_map_ram(caller, area->rg_start, area->rg_end,
                  old_end, incnumpage, newrg) < 0)
     return -1; /* Map the memory to MEMRAM */
@@ -513,8 +519,14 @@ int find_victim_page(struct mm_struct *mm, int *retpgn)
   {
     return -1;
   }
+  struct pgn_t *prev = NULL;
+  while (pg->pg_next)
+  {
+    prev = pg;
+    pg = pg->pg_next;
+  }
   *retpgn = pg->pgn;
-  mm->fifo_pgn = pg->pg_next;
+  prev->pg_next = NULL;
   free(pg);
 
   return 0;

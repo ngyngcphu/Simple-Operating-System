@@ -86,7 +86,6 @@ int vmap_page_range(struct pcb_t *caller,           // process call
                     struct framephy_struct *frames, // list of the mapped frames
                     struct vm_rg_struct *ret_rg)    // return mapped region, the real mapped fp
 {                                                   // no guarantee all given pages are mapped
-  uint32_t *pte = malloc(sizeof(uint32_t));
   struct framephy_struct *fpit;
   int pgit = 0;
   int pgn = PAGING_PGN(addr);
@@ -100,9 +99,8 @@ int vmap_page_range(struct pcb_t *caller,           // process call
    */
   for (; pgit < pgnum; ++pgit)
   {
-    *pte = caller->mm->pgd[pgn + pgit];
     fpit = frames;
-    pte_set_fpn(pte, fpit->fpn);
+    pte_set_fpn(&caller->mm->pgd[pgn + pgit], fpit->fpn);
     frames = frames->fp_next;
     free(fpit);
 
@@ -110,7 +108,6 @@ int vmap_page_range(struct pcb_t *caller,           // process call
      * Enqueue new usage page */
     enlist_pgn_node(&caller->mm->fifo_pgn, pgn + pgit);
   }
-  free(pte);
 
   return 0;
 }

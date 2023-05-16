@@ -2,34 +2,34 @@ Time slot   0
 ld_routine
 Time slot   1
 	Loaded a process at input/proc/s4, PID: 1 PRIO: 4
-	CPU 0: Dispatched process  1
 Time slot   2
+	CPU 0: Dispatched process  1
 	Loaded a process at input/proc/s3, PID: 2 PRIO: 3
 Time slot   3
+Time slot   4
 	CPU 0: Put process  1 to run queue
 	CPU 0: Dispatched process  2
-Time slot   4
 	Loaded a process at input/proc/m1s, PID: 3 PRIO: 2
 Time slot   5
+Time slot   6
 	CPU 0: Put process  2 to run queue
 	CPU 0: Dispatched process  3
-Time slot   6
 	Loaded a process at input/proc/s2, PID: 4 PRIO: 3
 Time slot   7
 	Loaded a process at input/proc/m0s, PID: 5 PRIO: 3
+Time slot   8
 	CPU 0: Put process  3 to run queue
 	CPU 0: Dispatched process  3
-Time slot   8
 Time slot   9
 	Loaded a process at input/proc/p1s, PID: 6 PRIO: 2
+Time slot  10
 	CPU 0: Put process  3 to run queue
 	CPU 0: Dispatched process  6
-Time slot  10
 Time slot  11
 	Loaded a process at input/proc/s0, PID: 7 PRIO: 1
+Time slot  12
 	CPU 0: Put process  6 to run queue
 	CPU 0: Dispatched process  7
-Time slot  12
 Time slot  13
 Time slot  14
 	CPU 0: Put process  7 to run queue
