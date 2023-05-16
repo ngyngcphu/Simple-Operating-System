@@ -4,8 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define OUTPUT_FOLDER "output_test/"
-
 static pthread_t _timer;
 
 struct timer_id_container_t

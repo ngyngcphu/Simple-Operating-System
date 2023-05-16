@@ -360,6 +360,12 @@ int pgwrite(
     uint32_t offset)
 {
 #ifdef IODUMP
+
+#ifdef OUTPUT_FOLDER
+  FILE *output_file = proc->file;
+  fprintf(output_file, "write region=%d offset=%d value=%d\n", destination, offset, data);
+#endif
+
   printf("write region=%d offset=%d value=%d\n", destination, offset, data);
 #ifdef PAGETBL_DUMP
   print_pgtbl(proc, 0, -1); // print max TBL

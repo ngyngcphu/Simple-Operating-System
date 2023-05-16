@@ -374,16 +374,30 @@ int print_pgtbl(struct pcb_t *caller, uint32_t start, uint32_t end)
   pgn_start = PAGING_PGN(start);
   pgn_end = PAGING_PGN(end);
 
+#ifdef OUTPUT_FOLDER
+  FILE *output_file = caller->file;
+  fprintf(output_file, "print_pgtbl: %d - %d", start, end);
+#endif
+
   printf("print_pgtbl: %d - %d", start, end);
   if (caller == NULL)
   {
+#ifdef OUTPUT_FOLDER
+    fprintf(output_file, "NULL caller\n");
+#endif
     printf("NULL caller\n");
     return -1;
   }
+#ifdef OUTPUT_FOLDER
+  fprintf(output_file, "\n");
+#endif
   printf("\n");
 
   for (pgit = pgn_start; pgit < pgn_end; pgit++)
   {
+#ifdef OUTPUT_FOLDER
+    fprintf(output_file, "%08ld: %08x\n", pgit * sizeof(uint32_t), caller->mm->pgd[pgit]);
+#endif
     printf("%08ld: %08x\n", pgit * sizeof(uint32_t), caller->mm->pgd[pgit]);
   }
 
