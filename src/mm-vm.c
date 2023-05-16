@@ -118,6 +118,12 @@ int __alloc(struct pcb_t *caller, int vmaid, int rgid, int size, int *alloc_addr
 
   *alloc_addr = old_sbrk;
 
+  struct vm_rg_struct *rg_free = malloc(sizeof(struct vm_rg_struct));
+  printf("\n************************** %lu\n", get_vma_by_num(caller->mm, vmaid)->sbrk);
+  rg_free->rg_start = old_sbrk + size;
+  rg_free->rg_end = get_vma_by_num(caller->mm, vmaid)->sbrk;
+  enlist_vm_freerg_list(caller->mm, *rg_free);
+
   pthread_mutex_unlock(&mmvm_lock);
   return 0;
 }
@@ -460,11 +466,7 @@ int validate_overlap_vm_area(struct pcb_t *caller, int vmaid, int vmastart, int 
 
   while (vma != NULL)
   {
-    if (vma->vm_end > newarea->vm_end)
-    {
-      break;
-    }
-    if (OVERLAP(newarea->vm_start, newarea->vm_end, vma->vm_start, vma->vm_end))
+    if (vma != newarea && OVERLAP(newarea->vm_start, newarea->vm_end, vma->vm_start, vma->vm_end))
     {
       return -1;
     }
@@ -492,7 +494,10 @@ int inc_vma_limit(struct pcb_t *caller, int vmaid, int inc_sz)
 
   /*Validate overlap of obtained region */
   if (validate_overlap_vm_area(caller, vmaid, area->rg_start, area->rg_end) < 0)
+  {
+    printf("\n***********************Hello********************\n");
     return -1; /*Overlap and failed allocation */
+  }
 
   /* The obtained vm area (only)
    * now will be alloc real ram region */
