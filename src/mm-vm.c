@@ -17,18 +17,18 @@ static pthread_mutex_t mmvm_lock = PTHREAD_MUTEX_INITIALIZER;
  *@rg_elmt: new region
  *
  */
-int enlist_vm_freerg_list(struct mm_struct *mm, struct vm_rg_struct rg_elmt)
+int enlist_vm_freerg_list(struct mm_struct *mm, struct vm_rg_struct *rg_elmt)
 {
   struct vm_rg_struct *rg_node = mm->mmap->vm_freerg_list;
 
-  if (rg_elmt.rg_start >= rg_elmt.rg_end)
+  if (rg_elmt->rg_start >= rg_elmt->rg_end)
     return -1;
 
   if (rg_node != NULL)
-    rg_elmt.rg_next = rg_node;
+    rg_elmt->rg_next = rg_node;
 
   /* Enlist the new region */
-  mm->mmap->vm_freerg_list = &rg_elmt;
+  mm->mmap->vm_freerg_list = rg_elmt;
 
   return 0;
 }
@@ -53,7 +53,7 @@ struct vm_area_struct *get_vma_by_num(struct mm_struct *mm, int vmaid)
       return NULL;
 
     pvma = pvma->vm_next;
-    vmait = pvma->vm_next->vm_id;
+    vmait = pvma->vm_id;
   }
 
   return pvma;
@@ -119,10 +119,9 @@ int __alloc(struct pcb_t *caller, int vmaid, int rgid, int size, int *alloc_addr
   *alloc_addr = old_sbrk;
 
   struct vm_rg_struct *rg_free = malloc(sizeof(struct vm_rg_struct));
-  printf("\n************************** %lu\n", get_vma_by_num(caller->mm, vmaid)->sbrk);
   rg_free->rg_start = old_sbrk + size;
   rg_free->rg_end = get_vma_by_num(caller->mm, vmaid)->sbrk;
-  enlist_vm_freerg_list(caller->mm, *rg_free);
+  enlist_vm_freerg_list(caller->mm, rg_free);
 
   pthread_mutex_unlock(&mmvm_lock);
   return 0;
@@ -151,7 +150,7 @@ int __free(struct pcb_t *caller, int vmaid, int rgid)
   rgnode.rg_start = rgnode.rg_end = -1;
   rgnode.rg_next = NULL;
   /*enlist the obsoleted memory region */
-  enlist_vm_freerg_list(caller->mm, rgnode);
+  enlist_vm_freerg_list(caller->mm, &rgnode);
 
   pthread_mutex_unlock(&mmvm_lock);
   return 0;
