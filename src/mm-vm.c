@@ -118,10 +118,14 @@ int __alloc(struct pcb_t *caller, int vmaid, int rgid, int size, int *alloc_addr
 
   *alloc_addr = old_sbrk;
 
-  struct vm_rg_struct *rg_free = malloc(sizeof(struct vm_rg_struct));
-  rg_free->rg_start = old_sbrk + size;
-  rg_free->rg_end = get_vma_by_num(caller->mm, vmaid)->sbrk;
-  enlist_vm_freerg_list(caller->mm, rg_free);
+  struct vm_area_struct *remain_rg = get_vma_by_num(caller->mm, vmaid);
+  if (old_sbrk + size < remain_rg->sbrk)
+  {
+    struct vm_rg_struct *rg_free = malloc(sizeof(struct vm_rg_struct));
+    rg_free->rg_start = old_sbrk + size;
+    rg_free->rg_end = remain_rg->sbrk;
+    enlist_vm_freerg_list(caller->mm, rg_free);
+  }
 
   pthread_mutex_unlock(&mmvm_lock);
   return 0;
@@ -137,7 +141,6 @@ int __alloc(struct pcb_t *caller, int vmaid, int rgid, int size, int *alloc_addr
 int __free(struct pcb_t *caller, int vmaid, int rgid)
 {
   pthread_mutex_lock(&mmvm_lock);
-  struct vm_rg_struct rgnode;
 
   if (rgid < 0 || rgid > PAGING_MAX_SYMTBL_SZ)
   {
@@ -146,11 +149,26 @@ int __free(struct pcb_t *caller, int vmaid, int rgid)
   }
 
   /* TODO: Manage the collect freed region to freerg_list */
-  rgnode = *get_symrg_byid(caller->mm, rgid);
-  rgnode.rg_start = rgnode.rg_end = -1;
-  rgnode.rg_next = NULL;
+  struct vm_rg_struct *rgnode = get_symrg_byid(caller->mm, rgid);
+
+  if (rgnode->rg_start == 0 && rgnode->rg_end == 0)
+  {
+    pthread_mutex_unlock(&mmvm_lock);
+    return -1;
+  }
+  struct vm_rg_struct *freerg_node = malloc(sizeof(struct vm_rg_struct));
+  freerg_node->rg_start = rgnode->rg_start;
+  freerg_node->rg_end = rgnode->rg_end;
+  freerg_node->rg_next = NULL;
+
+  struct vm_area_struct *cur_vma = get_vma_by_num(caller->mm, vmaid);
+  cur_vma->sbrk -= rgnode->rg_end - rgnode->rg_start;
+
+  rgnode->rg_start = rgnode->rg_end = 0;
+  rgnode->rg_next = NULL;
+
   /*enlist the obsoleted memory region */
-  enlist_vm_freerg_list(caller->mm, &rgnode);
+  enlist_vm_freerg_list(caller->mm, freerg_node);
 
   pthread_mutex_unlock(&mmvm_lock);
   return 0;
@@ -449,29 +467,32 @@ int validate_overlap_vm_area(struct pcb_t *caller, int vmaid, int vmastart, int 
 {
   if (vmastart >= vmaend)
   {
-    return 0;
+    return -1;
   }
 
   struct vm_area_struct *vma = caller->mm->mmap;
   if (vma == NULL)
   {
-    return 0;
+    return -1;
   }
 
   /* TODO validate the planned memory area is not overlapped */
 
-  struct vm_area_struct *newarea = get_vma_by_num(caller->mm, vmaid);
-  newarea->vm_end += vmaend - vmastart;
+  struct vm_area_struct *cur_area = get_vma_by_num(caller->mm, vmaid);
+  if (cur_area == NULL)
+  {
+    return -1;
+  }
 
   while (vma != NULL)
   {
-    if (vma != newarea && OVERLAP(newarea->vm_start, newarea->vm_end, vma->vm_start, vma->vm_end))
+    if (vma != cur_area && OVERLAP(cur_area->vm_start, cur_area->vm_end, vma->vm_start, vma->vm_end))
     {
       return -1;
     }
     vma = vma->vm_next;
   }
-
+  /* Because only using vmaid = 0, you can return 0 immediately in this function =))*/
   return 0;
 }
 
@@ -494,7 +515,6 @@ int inc_vma_limit(struct pcb_t *caller, int vmaid, int inc_sz)
   /*Validate overlap of obtained region */
   if (validate_overlap_vm_area(caller, vmaid, area->rg_start, area->rg_end) < 0)
   {
-    printf("\n***********************Hello********************\n");
     return -1; /*Overlap and failed allocation */
   }
 
