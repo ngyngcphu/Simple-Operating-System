@@ -2,166 +2,273 @@ Time slot   0
 ld_routine
 Time slot   1
 	Loaded a process at input/proc/p0s, PID: 1 PRIO: 130
-Time slot   2
 	CPU 3: Dispatched process  1
+Time slot   2
 	Loaded a process at input/proc/s3, PID: 2 PRIO: 39
 Time slot   3
-	CPU 2: Dispatched process  2
+	CPU 1: Dispatched process  2
+********* allocate: 300B region=0 region_start=00000000 proc=1 **********
+print_pgtbl: 0 - 512
+00000000: 80000001
+00000004: 80000000
 Time slot   4
 	CPU 3: Put process  1 to run queue
-	Loaded a process at input/proc/m1s, PID: 3 PRIO: 15
 	CPU 3: Dispatched process  1
-	CPU 2: Put process  2 to run queue
-Time slot   5
-	CPU 2: Dispatched process  3
-	CPU 1: Dispatched process  2
-Time slot   6
-	CPU 3: Put process  1 to run queue
-	CPU 3: Dispatched process  1
-	Loaded a process at input/proc/s2, PID: 4 PRIO: 120
-	CPU 2: Put process  3 to run queue
-Time slot   7
-write region=1 offset=20 value=100
-	CPU 2: Dispatched process  3
-	CPU 1: Put process  2 to run queue
-	CPU 0: Dispatched process  4
-print_pgtbl: 0 - 1024	CPU 1: Dispatched process  2
-
+********* allocate: 300B region=4 region_start=00000200 proc=1 **********
+print_pgtbl: 0 - 1024
 00000000: 80000001
 00000004: 80000000
 00000008: 80000003
 00000012: 80000002
-	Loaded a process at input/proc/m0s, PID: 5 PRIO: 120
-Time slot   8
-	CPU 3: Put process  1 to run queue
-	CPU 3: Dispatched process  5
-	CPU 2: Put process  3 to run queue
-Time slot   9
-	Loaded a process at input/proc/p1s, PID: 6 PRIO: 15
+	Loaded a process at input/proc/m1s, PID: 3 PRIO: 15
+Time slot   5
 	CPU 1: Put process  2 to run queue
-	CPU 0: Put process  4 to run queue
+********** deallocate region=0 proc=1 **********
 	CPU 2: Dispatched process  3
 	CPU 1: Dispatched process  2
+print_pgtbl: 0 - 1024
+00000000: 80000001
+00000004: 80000000
+00000008: 80000003
+00000012: 80000002
+********* allocate: 300B region=0 region_start=00000000 proc=3 **********
+print_pgtbl: 0 - 512
+00000000: 80000005
+00000004: 80000004
+Time slot   6
+	Loaded a process at input/proc/s2, PID: 4 PRIO: 120
+	CPU 3: Put process  1 to run queue
+	CPU 3: Dispatched process  1
+********* allocate: 100B region=1 region_start=00000000 proc=1 **********
+print_pgtbl: 0 - 1024
+00000000: 80000001
+00000004: 80000000
+00000008: 80000003
+00000012: 80000002
+********* allocate: 100B region=1 region_start=0000012c proc=3 **********
+print_pgtbl: 0 - 512
+00000000: 80000005
+00000004: 80000004
+Time slot   7
+	CPU 1: Put process  2 to run queue
+	CPU 2: Put process  3 to run queue
+	CPU 0: Dispatched process  4
+write region=1 offset=20 value=100
+	CPU 1: Dispatched process  2
+	Loaded a process at input/proc/m0s, PID: 5 PRIO: 120
+	CPU 2: Dispatched process  3
+********** deallocate region=0 proc=3 **********
+print_pgtbl: 0 - 512
+print_pgtbl: 0 - 1024
+00000000: 80000001
+00000004: 80000000
+00000008: 80000003
+00000012: 80000002
+----------* Memory dump *----------:
+BYTE 00000114: 100
+----------* End Memory dump *----------:
+00000000: 80000005
+00000004: 80000004
+	CPU 3: Put process  1 to run queue
+	CPU 3: Dispatched process  5
+********* allocate: 300B region=0 region_start=00000000 proc=5 **********
+Time slot   8
+print_pgtbl: 0 - 512
+00000000: 80000007
+00000004: 80000006
+********* allocate: 100B region=2 region_start=00000000 proc=3 **********
+print_pgtbl: 0 - 512
+00000000: 80000005
+00000004: 80000004
+********* allocate: 100B region=1 region_start=0000012c proc=5 **********
+Time slot   9
+	CPU 0: Put process  4 to run queue
+print_pgtbl: 0 - 512
+00000000: 80000007
+00000004: 80000006
+	Loaded a process at input/proc/p1s, PID: 6 PRIO: 15
+	CPU 1: Put process  2 to run queue
+	CPU 2: Put process  3 to run queue
 	CPU 0: Dispatched process  6
-Time slot  10
+	CPU 1: Dispatched process  2
+	CPU 2: Dispatched process  3
+********** deallocate region=2 proc=3 **********
+print_pgtbl: 0 - 512
+00000000: 80000005
+00000004: 80000004
 	CPU 3: Put process  5 to run queue
 	CPU 3: Dispatched process  4
-	CPU 2: Processed  3 has finished
+Time slot  10
+********** deallocate region=1 proc=3 **********
+print_pgtbl: 0 - 512
+00000000: 80000005
+00000004: 80000004
 Time slot  11
 	CPU 1: Put process  2 to run queue
+	CPU 0: Put process  6 to run queue
+	CPU 2: Processed  3 has finished
+	CPU 1: Dispatched process  2
 	Loaded a process at input/proc/s0, PID: 7 PRIO: 38
 	CPU 2: Dispatched process  5
-	CPU 0: Put process  6 to run queue
-	CPU 1: Dispatched process  2
 	CPU 0: Dispatched process  6
+********** deallocate region=0 proc=5 **********
+print_pgtbl: 0 - 512
+00000000: 80000007
+00000004: 80000006
 Time slot  12
 	CPU 3: Put process  4 to run queue
 	CPU 3: Dispatched process  7
-	CPU 2: Put process  5 to run queue
+********* allocate: 100B region=2 region_start=00000000 proc=5 **********
+print_pgtbl: 0 - 512
+00000000: 80000007
+00000004: 80000006
 Time slot  13
-	CPU 1: Put process  2 to run queue
-	CPU 0: Put process  6 to run queue
+	CPU 2: Put process  5 to run queue
 	CPU 2: Dispatched process  4
+	CPU 1: Put process  2 to run queue
 	CPU 1: Dispatched process  2
+	CPU 0: Put process  6 to run queue
 	CPU 0: Dispatched process  6
 Time slot  14
-	CPU 1: Processed  2 has finished
 	CPU 3: Put process  7 to run queue
+	CPU 3: Dispatched process  7
+	CPU 1: Processed  2 has finished
 	CPU 1: Dispatched process  5
 write region=1 offset=20 value=102
 print_pgtbl: 0 - 512
 00000000: 80000007
 00000004: 80000006
-	CPU 3: Dispatched process  7
+----------* Memory dump *----------:
+BYTE 00000114: 100
+BYTE 00000640: 102
+----------* End Memory dump *----------:
 Time slot  15
-	CPU 2: Put process  4 to run queue
-write region=2 offset=1000 value=1
-	CPU 2: Dispatched process  4
 	CPU 0: Put process  6 to run queue
-print_pgtbl: 0 - 512
-00000000: c0000000
-00000004: 80000006
+write region=2 offset=1000 value=1
+	CPU 2: Put process  4 to run queue
 	CPU 0: Dispatched process  6
+	CPU 2: Dispatched process  4
+print_pgtbl: 0 - 512
+00000000: 80000007
+00000004: c0000000
+----------* Memory dump *----------:
+BYTE 00000114: 100
+BYTE 00000640: 102
+BYTE 000006e8: 1
+----------* End Memory dump *----------:
 Time slot  16
 	CPU 1: Processed  5 has finished
 	CPU 3: Put process  7 to run queue
-	Loaded a process at input/proc/s1, PID: 8 PRIO: 0
 	CPU 1: Dispatched process  1
+	CPU 3: Dispatched process  7
+read region=1 offset=20 value=100
 print_pgtbl: 0 - 1024
 00000000: 80000001
 00000004: 80000000
 00000008: 80000003
 00000012: 80000002
-	CPU 3: Dispatched process  8
-	CPU 2: Put process  4 to run queue
+----------* Memory dump *----------:
+BYTE 00000114: 100
+BYTE 00000640: 102
+BYTE 000006e8: 1
+----------* End Memory dump *----------:
+	Loaded a process at input/proc/s1, PID: 8 PRIO: 0
 Time slot  17
-	CPU 0: Put process  6 to run queue
-	CPU 2: Dispatched process  7
 write region=2 offset=20 value=102
-print_pgtbl: 0 - 1024
+	CPU 0: Put process  6 to run queue
+	CPU 2: Put process  4 to run queue
+	CPU 0: Dispatched process  8
+print_pgtbl: 0 - 1024	CPU 2: Dispatched process  6
+
 00000000: 80000001
 00000004: 80000000
 00000008: 80000003
 00000012: 80000002
-	CPU 0: Dispatched process  6
+----------* Memory dump *----------:
+BYTE 00000114: 102
+BYTE 00000640: 102
+BYTE 000006e8: 1
+----------* End Memory dump *----------:
 Time slot  18
 	CPU 1: Put process  1 to run queue
+	CPU 3: Put process  7 to run queue
 	CPU 1: Dispatched process  4
-	CPU 3: Put process  8 to run queue
-	CPU 3: Dispatched process  8
+	CPU 3: Dispatched process  7
 Time slot  19
-	CPU 2: Put process  7 to run queue
-	CPU 0: Processed  6 has finished
-	CPU 2: Dispatched process  7
-	CPU 0: Dispatched process  1
+	CPU 0: Put process  8 to run queue
+	CPU 0: Dispatched process  8
+	CPU 2: Processed  6 has finished
+	CPU 2: Dispatched process  1
+read region=2 offset=20 value=102
 print_pgtbl: 0 - 1024
 00000000: 80000001
 00000004: 80000000
 00000008: 80000003
 00000012: 80000002
+----------* Memory dump *----------:
+BYTE 00000114: 102
+BYTE 00000640: 102
+BYTE 000006e8: 1
+----------* End Memory dump *----------:
 Time slot  20
-write region=3 offset=20 value=103
-print_pgtbl: 0 - 1024
-00000000: 80000001
-00000004: 80000000
-00000008: 80000003
-00000012: 80000002
 	CPU 1: Put process  4 to run queue
+	CPU 3: Put process  7 to run queue
+write region=3 offset=20 value=103
 	CPU 1: Dispatched process  4
-	CPU 3: Put process  8 to run queue
-	CPU 3: Dispatched process  8
-Time slot  21
-	CPU 2: Put process  7 to run queue
-	CPU 2: Dispatched process  7
-	CPU 0: Put process  1 to run queue
-	CPU 0: Dispatched process  1
+	CPU 3: Dispatched process  7
 print_pgtbl: 0 - 1024
 00000000: 80000001
 00000004: 80000000
 00000008: 80000003
 00000012: 80000002
+----------* Memory dump *----------:
+BYTE 00000114: 103
+BYTE 00000640: 102
+BYTE 000006e8: 1
+----------* End Memory dump *----------:
+Time slot  21
+	CPU 2: Put process  1 to run queue
+	CPU 2: Dispatched process  1
+read region=3 offset=20 value=103
+	CPU 0: Put process  8 to run queue
+	CPU 0: Dispatched process  8
+print_pgtbl: 0 - 1024
+00000000: 80000001
+00000004: 80000000
+00000008: 80000003
+00000012: 80000002
+----------* Memory dump *----------:
+BYTE 00000114: 103
+BYTE 00000640: 102
+BYTE 000006e8: 1
+----------* End Memory dump *----------:
+	CPU 3: Put process  7 to run queue
 Time slot  22
+	CPU 3: Dispatched process  7
 	CPU 1: Processed  4 has finished
 	CPU 1 stopped
-	CPU 3: Put process  8 to run queue
-	CPU 3: Dispatched process  8
 Time slot  23
-	CPU 2: Put process  7 to run queue
-	CPU 2: Dispatched process  7
-	CPU 0: Put process  1 to run queue
-	CPU 0: Dispatched process  1
-	CPU 3: Processed  8 has finished
-	CPU 3 stopped
+	CPU 0: Put process  8 to run queue
+	CPU 0: Dispatched process  8
+	CPU 2: Put process  1 to run queue
+	CPU 2: Dispatched process  1
+********** deallocate region=4 proc=1 **********
+print_pgtbl: 0 - 1024
+00000000: 80000001
+00000004: 80000000
+00000008: 80000003
+00000012: 80000002
 Time slot  24
-Time slot  25
-	CPU 0: Processed  1 has finished
-	CPU 2: Put process  7 to run queue
+	CPU 0: Processed  8 has finished
+	CPU 3: Put process  7 to run queue
 	CPU 0 stopped
-	CPU 2: Dispatched process  7
-Time slot  26
-Time slot  27
-	CPU 2: Put process  7 to run queue
-	CPU 2: Dispatched process  7
-Time slot  28
-	CPU 2: Processed  7 has finished
+	CPU 3: Dispatched process  7
+Time slot  25
+	CPU 2: Processed  1 has finished
 	CPU 2 stopped
+Time slot  26
+	CPU 3: Put process  7 to run queue
+	CPU 3: Dispatched process  7
+Time slot  27
+	CPU 3: Processed  7 has finished
+	CPU 3 stopped

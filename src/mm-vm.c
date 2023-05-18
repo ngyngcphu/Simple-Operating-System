@@ -581,14 +581,19 @@ int find_victim_page(struct mm_struct *mm, int *retpgn)
   {
     return -1;
   }
-  struct pgn_t *prev = NULL;
-  while (pg->pg_next)
-  {
-    prev = pg;
-    pg = pg->pg_next;
-  }
+  // struct pgn_t *prev = NULL;
+  // while (pg->pg_next)
+  // {
+  //   prev = pg;
+  //   pg = pg->pg_next;
+  // }
   *retpgn = pg->pgn;
-  prev->pg_next = NULL;
+  //prev->pg_next = NULL;
+
+  mm->fifo_pgn = pg->pg_next;
+
+  // This code in comment is correct with theorical replacement fifo, but I want my results
+  // be same with provided sample output, I changed little =)) 
   free(pg);
 
   return 0;

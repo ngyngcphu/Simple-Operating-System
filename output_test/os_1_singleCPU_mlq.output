@@ -12,13 +12,13 @@ Time slot   4
 	Loaded a process at input/proc/m1s, PID: 3 PRIO: 2
 Time slot   5
 Time slot   6
-	Loaded a process at input/proc/s2, PID: 4 PRIO: 3
 	CPU 0: Put process  2 to run queue
 	CPU 0: Dispatched process  3
 ********* allocate: 300B region=0 region_start=00000000 proc=3 **********
 print_pgtbl: 0 - 512
 00000000: 80000001
 00000004: 80000000
+	Loaded a process at input/proc/s2, PID: 4 PRIO: 3
 Time slot   7
 ********* allocate: 100B region=1 region_start=0000012c proc=3 **********
 print_pgtbl: 0 - 512
@@ -33,11 +33,11 @@ print_pgtbl: 0 - 512
 00000000: 80000001
 00000004: 80000000
 Time slot   9
-	Loaded a process at input/proc/p1s, PID: 6 PRIO: 2
 ********* allocate: 100B region=2 region_start=00000000 proc=3 **********
 print_pgtbl: 0 - 512
 00000000: 80000001
 00000004: 80000000
+	Loaded a process at input/proc/p1s, PID: 6 PRIO: 2
 Time slot  10
 	CPU 0: Put process  3 to run queue
 	CPU 0: Dispatched process  6
@@ -120,14 +120,14 @@ Time slot  42
 Time slot  43
 Time slot  44
 	CPU 0: Processed  6 has finished
-	CPU 0: Dispatched process  4
+	CPU 0: Dispatched process  2
 Time slot  45
 Time slot  46
-	CPU 0: Put process  4 to run queue
-	CPU 0: Dispatched process  2
+	CPU 0: Put process  2 to run queue
+	CPU 0: Dispatched process  4
 Time slot  47
 Time slot  48
-	CPU 0: Put process  2 to run queue
+	CPU 0: Put process  4 to run queue
 	CPU 0: Dispatched process  5
 ********* allocate: 300B region=0 region_start=00000000 proc=5 **********
 print_pgtbl: 0 - 512
@@ -140,14 +140,14 @@ print_pgtbl: 0 - 512
 00000004: 80000002
 Time slot  50
 	CPU 0: Put process  5 to run queue
-	CPU 0: Dispatched process  4
+	CPU 0: Dispatched process  2
 Time slot  51
 Time slot  52
-	CPU 0: Put process  4 to run queue
-	CPU 0: Dispatched process  2
+	CPU 0: Put process  2 to run queue
+	CPU 0: Dispatched process  4
 Time slot  53
 Time slot  54
-	CPU 0: Put process  2 to run queue
+	CPU 0: Put process  4 to run queue
 	CPU 0: Dispatched process  5
 ********** deallocate region=0 proc=5 **********
 print_pgtbl: 0 - 512
@@ -160,14 +160,14 @@ print_pgtbl: 0 - 512
 00000004: 80000002
 Time slot  56
 	CPU 0: Put process  5 to run queue
-	CPU 0: Dispatched process  4
+	CPU 0: Dispatched process  2
 Time slot  57
 Time slot  58
-	CPU 0: Put process  4 to run queue
-	CPU 0: Dispatched process  2
+	CPU 0: Put process  2 to run queue
+	CPU 0: Dispatched process  4
 Time slot  59
 Time slot  60
-	CPU 0: Put process  2 to run queue
+	CPU 0: Put process  4 to run queue
 	CPU 0: Dispatched process  5
 write region=1 offset=20 value=102
 print_pgtbl: 0 - 512
@@ -179,29 +179,29 @@ BYTE 00000240: 102
 Time slot  61
 write region=2 offset=1000 value=1
 print_pgtbl: 0 - 512
-00000000: c0000000
-00000004: 80000002
+00000000: 80000003
+00000004: c0000000
 ----------* Memory dump *----------:
 BYTE 00000240: 102
-BYTE 000003e8: 1
+BYTE 000002e8: 1
 ----------* End Memory dump *----------:
 Time slot  62
 	CPU 0: Processed  5 has finished
-	CPU 0: Dispatched process  4
+	CPU 0: Dispatched process  2
 Time slot  63
 Time slot  64
-	CPU 0: Put process  4 to run queue
-	CPU 0: Dispatched process  2
-Time slot  65
-Time slot  66
 	CPU 0: Put process  2 to run queue
 	CPU 0: Dispatched process  4
-Time slot  67
-Time slot  68
+Time slot  65
+Time slot  66
 	CPU 0: Put process  4 to run queue
 	CPU 0: Dispatched process  2
-Time slot  69
+Time slot  67
 	CPU 0: Processed  2 has finished
+	CPU 0: Dispatched process  4
+Time slot  68
+Time slot  69
+	CPU 0: Put process  4 to run queue
 	CPU 0: Dispatched process  4
 Time slot  70
 Time slot  71
