@@ -25,7 +25,7 @@ int init_pte(uint32_t *pte,
     {
       // Non swap ~ page online
       if (fpn == 0) // ?? why but not affect to result =))
-        return -1; // Invalid setting
+        return -1;  // Invalid setting
 
       /* Valid setting with FPN */
       SETBIT(*pte, PAGING_PTE_PRESENT_MASK);
@@ -409,6 +409,18 @@ int print_pgtbl(struct pcb_t *caller, uint32_t start, uint32_t end)
 #endif
     printf("%08ld: %08x\n", pgit * sizeof(uint32_t), caller->mm->pgd[pgit]);
   }
+
+  for (pgit = pgn_start; pgit < pgn_end; pgit++)
+  {
+#ifdef OUTPUT_FOLDER
+    fprintf(output_file, "Page Number: %d -> Frame Number: %d\n", pgit, PAGING_FPN(caller->mm->pgd[pgit]));
+#endif
+    printf("Page Number: %d -> Frame Number: %d\n", pgit, PAGING_FPN(caller->mm->pgd[pgit]));
+  }
+#ifdef OUTPUT_FOLDER
+  fprintf(output_file, "================================================================\n");
+#endif
+  printf("================================================================\n");
 
   return 0;
 }

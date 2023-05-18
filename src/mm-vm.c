@@ -189,10 +189,12 @@ int pgalloc(struct pcb_t *proc, uint32_t size, uint32_t reg_index)
 
 #ifdef OUTPUT_FOLDER
   FILE *output_file = proc->file;
-  fprintf(output_file, "********* allocate: %dB region=%d region_start=%08x proc=%d **********\n", size, reg_index, addr, proc->pid);
+  fprintf(output_file, "===== PHYSICAL MEMORY AFTER ALLOCATION =====\n");
+  fprintf(output_file, "PID=%d - Region=%d - Address=%08x - Size=%d byte\n", proc->pid, reg_index, addr, size);
 #endif
 
-  printf("********* allocate: %dB region=%d region_start=%08x proc=%d **********\n", size, reg_index, addr, proc->pid);
+  printf("===== PHYSICAL MEMORY AFTER ALLOCATION =====\n");
+  printf("PID=%d - Region=%d - Address=%08x - Size=%d byte\n", proc->pid, reg_index, addr, size);
 #ifdef PAGETBL_DUMP
   print_pgtbl(proc, 0, -1); // print max TBL
 #endif
@@ -219,10 +221,12 @@ int pgfree_data(struct pcb_t *proc, uint32_t reg_index)
 
 #ifdef OUTPUT_FOLDER
   FILE *output_file = proc->file;
-  fprintf(output_file, "********** deallocate region=%d proc=%d **********\n", reg_index, proc->pid);
+  fprintf(output_file, "===== PHYSICAL MEMORY AFTER DEALLOCATION =====\n");
+  fprintf(output_file, "PID=%d - Region=%d\n", proc->pid, reg_index);
 #endif
 
-  printf("********** deallocate region=%d proc=%d **********\n", reg_index, proc->pid);
+  printf("===== PHYSICAL MEMORY AFTER DEALLOCATION =====\n");
+  printf("PID=%d - Region=%d\n", proc->pid, reg_index);
 #ifdef PAGETBL_DUMP
   print_pgtbl(proc, 0, -1); // print max TBL
 #endif
@@ -373,9 +377,11 @@ int pgread(
 
 #ifdef OUTPUT_FOLDER
   FILE *output_file = proc->file;
+  fprintf(output_file, "===== PHYSICAL MEMORY AFTER READING =====\n");
   fprintf(output_file, "read region=%d offset=%d value=%d\n", source, offset, data);
 #endif
 
+  printf("===== PHYSICAL MEMORY AFTER READING =====\n");
   printf("read region=%d offset=%d value=%d\n", source, offset, data);
 #ifdef PAGETBL_DUMP
   print_pgtbl(proc, 0, -1); // print max TBL
@@ -429,9 +435,11 @@ int pgwrite(
 
 #ifdef OUTPUT_FOLDER
   FILE *output_file = proc->file;
+  fprintf(output_file, "===== PHYSICAL MEMORY AFTER WRITING =====\n");
   fprintf(output_file, "write region=%d offset=%d value=%d\n", destination, offset, data);
 #endif
 
+  printf("===== PHYSICAL MEMORY AFTER WRITING =====\n");
   printf("write region=%d offset=%d value=%d\n", destination, offset, data);
 #ifdef PAGETBL_DUMP
   print_pgtbl(proc, 0, -1); // print max TBL
@@ -581,19 +589,15 @@ int find_victim_page(struct mm_struct *mm, int *retpgn)
   {
     return -1;
   }
-  // struct pgn_t *prev = NULL;
-  // while (pg->pg_next)
-  // {
-  //   prev = pg;
-  //   pg = pg->pg_next;
-  // }
+  struct pgn_t *prev = NULL;
+  while (pg->pg_next)
+  {
+    prev = pg;
+    pg = pg->pg_next;
+  }
   *retpgn = pg->pgn;
-  //prev->pg_next = NULL;
+  prev->pg_next = NULL;
 
-  mm->fifo_pgn = pg->pg_next;
-
-  // This code in comment is correct with theorical replacement fifo, but I want my results
-  // be same with provided sample output, I changed little =)) 
   free(pg);
 
   return 0;

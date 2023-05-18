@@ -165,10 +165,10 @@ int MEMPHY_dump(struct memphy_struct *mp)
  */
 #ifdef OUTPUT_FOLDER
    FILE *output_file = mp->file;
-   fprintf(output_file, "----------* Memory dump *----------:\n");
+   fprintf(output_file, "===== PHYSICAL MEMORY DUMP =====\n");
 #endif
 
-   printf("----------* Memory dump *----------:\n");
+   printf("===== PHYSICAL MEMORY DUMP =====\n");
    for (int i = 0; i < mp->maxsz; ++i)
    {
       if (mp->storage[i] != 0)
@@ -180,10 +180,12 @@ int MEMPHY_dump(struct memphy_struct *mp)
       }
    }
 #ifdef OUTPUT_FOLDER
-   fprintf(output_file, "----------* End Memory dump *----------:\n");
+   fprintf(output_file, "===== PHYSICAL MEMORY END-DUMP =====\n");
+   fprintf(output_file, "================================================================\n");
 #endif
 
-   printf("----------* End Memory dump *----------:\n");
+   printf("===== PHYSICAL MEMORY END-DUMP =====\n");
+   printf("================================================================\n");
    return 0;
 }
 
