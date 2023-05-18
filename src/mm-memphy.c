@@ -7,6 +7,7 @@
 #include "mm.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /*
  *  MEMPHY_mv_csr - move MEMPHY cursor
@@ -159,14 +160,30 @@ int MEMPHY_get_freefp(struct memphy_struct *mp, int *retfpn)
 
 int MEMPHY_dump(struct memphy_struct *mp)
 {
-   /*TODO dump memphy contnt mp->storage
-    *     for tracing the memory content
-    */
-   // printf("Memory dump:\n");
-   // for (int i = 0; i < mp->maxsz; ++i)
-   // {
-   //    printf("BYTE %05x: %02x\n", i, mp->storage[i]);
-   // }
+/*TODO dump memphy contnt mp->storage
+ *     for tracing the memory content
+ */
+#ifdef OUTPUT_FOLDER
+   FILE *output_file = mp->file;
+   fprintf(output_file, "----------* Memory dump *----------:\n");
+#endif
+
+   printf("----------* Memory dump *----------:\n");
+   for (int i = 0; i < mp->maxsz; ++i)
+   {
+      if (mp->storage[i] != 0)
+      {
+#ifdef OUTPUT_FOLDER
+         fprintf(output_file, "BYTE %05x: %02x\n", i, mp->storage[i]);
+#endif
+         printf("BYTE %05x: %02x\n", i, mp->storage[i]);
+      }
+   }
+#ifdef OUTPUT_FOLDER
+   fprintf(output_file, "----------* End Memory dump *----------:\n");
+#endif
+
+   printf("----------* End Memory dump *----------:\n");
    return 0;
 }
 
@@ -190,6 +207,7 @@ int init_memphy(struct memphy_struct *mp, int max_size, int randomflg)
 {
    mp->storage = (BYTE *)malloc(max_size * sizeof(BYTE));
    mp->maxsz = max_size;
+   memset(mp->storage, 0, max_size);
 
    MEMPHY_format(mp, PAGING_PAGESZ);
 

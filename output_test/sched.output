@@ -5,8 +5,8 @@ ld_routine
 Time slot   1
 	Loaded a process at input/proc/p2s, PID: 2 PRIO: 0
 Time slot   2
-	Loaded a process at input/proc/p3s, PID: 3 PRIO: 0
 	CPU 1: Dispatched process  2
+	Loaded a process at input/proc/p3s, PID: 3 PRIO: 0
 Time slot   3
 Time slot   4
 	CPU 0: Put process  1 to run queue

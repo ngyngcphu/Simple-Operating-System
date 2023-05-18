@@ -161,9 +161,6 @@ int __free(struct pcb_t *caller, int vmaid, int rgid)
   freerg_node->rg_end = rgnode->rg_end;
   freerg_node->rg_next = NULL;
 
-  struct vm_area_struct *cur_vma = get_vma_by_num(caller->mm, vmaid);
-  cur_vma->sbrk -= rgnode->rg_end - rgnode->rg_start;
-
   rgnode->rg_start = rgnode->rg_end = 0;
   rgnode->rg_next = NULL;
 
@@ -338,6 +335,12 @@ int pgread(
 
   destination = (uint32_t)data;
 #ifdef IODUMP
+
+#ifdef OUTPUT_FOLDER
+  FILE *output_file = proc->file;
+  fprintf(output_file, "read region=%d offset=%d value=%d\n", source, offset, data);
+#endif
+
   printf("read region=%d offset=%d value=%d\n", source, offset, data);
 #ifdef PAGETBL_DUMP
   print_pgtbl(proc, 0, -1); // print max TBL

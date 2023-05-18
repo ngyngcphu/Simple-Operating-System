@@ -74,6 +74,7 @@ static void *cpu_routine(void *args)
 				continue; /* First load failed. skip dummy load */
 			}
 			proc->file = output_file;
+			proc->mram->file = output_file;
 		}
 		else if (proc->pc == proc->code->size)
 		{
@@ -82,6 +83,7 @@ static void *cpu_routine(void *args)
 			fprintf(output_file, "\tCPU %d: Processed %2d has finished\n",
 					id, proc->pid);
 			proc->file = output_file;
+			proc->mram->file = output_file;
 #endif
 			printf("\tCPU %d: Processed %2d has finished\n",
 				   id, proc->pid);
@@ -96,6 +98,7 @@ static void *cpu_routine(void *args)
 			fprintf(output_file, "\tCPU %d: Put process %2d to run queue\n",
 					id, proc->pid);
 			proc->file = output_file;
+			proc->mram->file = output_file;
 #endif
 			printf("\tCPU %d: Put process %2d to run queue\n",
 				   id, proc->pid);
@@ -126,6 +129,7 @@ static void *cpu_routine(void *args)
 			fprintf(output_file, "\tCPU %d: Dispatched process %2d\n",
 					id, proc->pid);
 			proc->file = output_file;
+			proc->mram->file = output_file;
 #endif
 			printf("\tCPU %d: Dispatched process %2d\n",
 				   id, proc->pid);

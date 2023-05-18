@@ -15,43 +15,43 @@ Time slot   5
 Time slot   6
 	Loaded a process at input/proc/s2, PID: 3 PRIO: 0
 Time slot   7
+	Loaded a process at input/proc/s3, PID: 4 PRIO: 0
 	CPU 0: Put process  2 to run queue
 	CPU 0: Dispatched process  3
-	Loaded a process at input/proc/s3, PID: 4 PRIO: 0
 Time slot   8
 Time slot   9
 	CPU 0: Put process  3 to run queue
-	CPU 0: Dispatched process  2
+	CPU 0: Dispatched process  4
 Time slot  10
 Time slot  11
-	CPU 0: Put process  2 to run queue
-	CPU 0: Dispatched process  4
+	CPU 0: Put process  4 to run queue
+	CPU 0: Dispatched process  2
 Time slot  12
 Time slot  13
-	CPU 0: Put process  4 to run queue
+	CPU 0: Put process  2 to run queue
 	CPU 0: Dispatched process  3
 Time slot  14
 Time slot  15
 	CPU 0: Put process  3 to run queue
-	CPU 0: Dispatched process  2
+	CPU 0: Dispatched process  4
 Time slot  16
 Time slot  17
-	CPU 0: Put process  2 to run queue
-	CPU 0: Dispatched process  4
+	CPU 0: Put process  4 to run queue
+	CPU 0: Dispatched process  2
 Time slot  18
 Time slot  19
-	CPU 0: Put process  4 to run queue
+	CPU 0: Put process  2 to run queue
 	CPU 0: Dispatched process  3
 Time slot  20
 Time slot  21
 	CPU 0: Put process  3 to run queue
-	CPU 0: Dispatched process  2
-Time slot  22
-	CPU 0: Processed  2 has finished
 	CPU 0: Dispatched process  4
+Time slot  22
 Time slot  23
-Time slot  24
 	CPU 0: Put process  4 to run queue
+	CPU 0: Dispatched process  2
+Time slot  24
+	CPU 0: Processed  2 has finished
 	CPU 0: Dispatched process  3
 Time slot  25
 Time slot  26
