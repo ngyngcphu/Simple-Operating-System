@@ -24,7 +24,7 @@ int init_pte(uint32_t *pte,
     if (swp == 0)
     {
       // Non swap ~ page online
-      if (fpn == 0)
+      if (fpn == 0) // ?? why but not affect to result =))
         return -1; // Invalid setting
 
       /* Valid setting with FPN */
