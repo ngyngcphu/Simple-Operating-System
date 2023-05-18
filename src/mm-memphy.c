@@ -174,9 +174,9 @@ int MEMPHY_dump(struct memphy_struct *mp)
       if (mp->storage[i] != 0)
       {
 #ifdef OUTPUT_FOLDER
-         fprintf(output_file, "BYTE %05x: %02x\n", i, mp->storage[i]);
+         fprintf(output_file, "BYTE %08x: %d\n", i, mp->storage[i]);
 #endif
-         printf("BYTE %05x: %02x\n", i, mp->storage[i]);
+         printf("BYTE %08x: %d\n", i, mp->storage[i]);
       }
    }
 #ifdef OUTPUT_FOLDER
@@ -207,7 +207,7 @@ int init_memphy(struct memphy_struct *mp, int max_size, int randomflg)
 {
    mp->storage = (BYTE *)malloc(max_size * sizeof(BYTE));
    mp->maxsz = max_size;
-   memset(mp->storage, 0, max_size);
+   memset(mp->storage, 0, max_size * sizeof(BYTE));
 
    MEMPHY_format(mp, PAGING_PAGESZ);
 

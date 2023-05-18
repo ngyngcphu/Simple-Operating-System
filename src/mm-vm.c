@@ -180,8 +180,26 @@ int pgalloc(struct pcb_t *proc, uint32_t size, uint32_t reg_index)
 {
   int addr;
 
+  int val = __alloc(proc, 0, reg_index, size, &addr);
+  if (val == -1)
+  {
+    return -1;
+  }
+#ifdef IODUMP
+
+#ifdef OUTPUT_FOLDER
+  FILE *output_file = proc->file;
+  fprintf(output_file, "********* allocate: %dB region=%d region_start=%08x proc=%d **********\n", size, reg_index, addr, proc->pid);
+#endif
+
+  printf("********* allocate: %dB region=%d region_start=%08x proc=%d **********\n", size, reg_index, addr, proc->pid);
+#ifdef PAGETBL_DUMP
+  print_pgtbl(proc, 0, -1); // print max TBL
+#endif
+#endif
+
   /* By default using vmaid = 0 */
-  return __alloc(proc, 0, reg_index, size, &addr);
+  return val;
 }
 
 /*pgfree - PAGING-based free a region memory
@@ -192,7 +210,24 @@ int pgalloc(struct pcb_t *proc, uint32_t size, uint32_t reg_index)
 
 int pgfree_data(struct pcb_t *proc, uint32_t reg_index)
 {
-  return __free(proc, 0, reg_index);
+  int val = __free(proc, 0, reg_index);
+  if (val == -1)
+  {
+    return -1;
+  }
+#ifdef IODUMP
+
+#ifdef OUTPUT_FOLDER
+  FILE *output_file = proc->file;
+  fprintf(output_file, "********** deallocate region=%d proc=%d **********\n", reg_index, proc->pid);
+#endif
+
+  printf("********** deallocate region=%d proc=%d **********\n", reg_index, proc->pid);
+#ifdef PAGETBL_DUMP
+  print_pgtbl(proc, 0, -1); // print max TBL
+#endif
+#endif
+  return val;
 }
 
 /*pg_getpage - get the page in ram
