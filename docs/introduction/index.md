@@ -2,7 +2,7 @@
 
 From a thesis in [Ho Chi Minh University of Technology](https://hcmut.edu.vn/) ...
 
-Hello world !
+Nguyen Ngoc Phu says hello world !
 
 ## Our HPC system problem
 
