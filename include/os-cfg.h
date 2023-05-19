@@ -11,6 +11,6 @@
 #define IODUMP 1
 #define PAGETBL_DUMP 1
 
-#define OUTPUT_FOLDER "output_test/"
+#define OUTPUT_FOLDER "output/"
 
 #endif
