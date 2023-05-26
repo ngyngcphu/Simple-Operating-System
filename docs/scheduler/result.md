@@ -2,7 +2,6 @@
 1. TEST 1:
 - Input
 <table>
-<tr>
 <td>
 
 ```
@@ -67,7 +66,6 @@ calc
 calc
 ```
 </td>
-</tr>
 </table>
 
 - Output: Kết quả chi tiết trong ```/output/sched.output```.  
@@ -77,7 +75,6 @@ Gantt diagram:
 2. TEST 2:
 - Input
 <table>
-<tr>
 <td>
 
 ```
@@ -123,7 +120,6 @@ calc
 calc
 ```
 </td>
-</tr>
 </table>
 
 - Output: Kết quả chi tiết trong ```/output/sched_0.output```.  
@@ -133,7 +129,6 @@ Gantt diagram:
 3. TEST 3:
 - Input
 <table>
-<tr>
 <td>
 
 ```
@@ -218,7 +213,6 @@ calc
 calc
 ```
 </td>
-</tr>
 </table>
 
 - Output: Kết quả chi tiết trong ```/output/sched_1.output```.  
