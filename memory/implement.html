@@ -152,11 +152,10 @@ Tìm một &quot;victim&quot; page trong virtual memory:
 Cấp phát các frame trên RAM và lưu trong danh sách <code>frm_lst</code>:
 <ul>
 <li>Lặp qua <code>req_pgnum</code> lần. Ở mỗi bước lặp, kiểm tra có thể cấp phát 1 frame trong RAM. Nếu được, thêm frame vừa được cấp phát vào đầu danh sách <code>frm_lst</code>. Nếu không, thực thi bước kế tiếp.</li>
-<li>Tìm một frame trong RAM và thay thế nó bằng frame trong SWAP. Việc lựa chọn một frame cần tìm một page &quot;victim&quot; trong virtual memory bằng hàm <code>find_victim_page</code>.<br />
-<code>Note: Việc sử dụng logic trong hàm find_victim_page là sai vì frame được thay thế không theo cơ chế FIFO của RAM -&gt; Cần điều chỉnh.</code></li>
-<li>Nếu việc tìm &quot;victim&quot; page hoặc lấy một frame trong SWAP thất bại thì giải phóng toàn bộ các frame đã được cấp phát trước đó và trả về lỗi.</li>
-<li>Lấy frame tương ứng với &quot;victim&quot; page, swap với frame trong SWAP.</li>
-<li>Set page table entry tương ứng với &quot;victim&quot; page bằng hàm <code>pte_set_swap</code>, thêm frame vừa được swap lên RAM vào đầu danh sách <code>frm_lst</code>.</li>
+<li>Tìm một frame <code>vicfpn</code> trong RAM và thay thế nó bằng một free frame <code>swpfpn</code> trong SWAP. Việc lựa chọn một <code>vicfpn</code> cần tìm một &quot;victim&quot; page <code>vicpgn</code> trong virtual memory bằng hàm <code>find_victim_page</code>.</li>
+<li>Nếu việc tìm <code>vicpgn</code> hoặc lấy một <code>swpfpn</code> trong SWAP thất bại thì giải phóng toàn bộ các frame đã được cấp phát trước đó và trả về lỗi.</li>
+<li>Swap <code>vicfpn</code> trong RAM với <code>swpfpn</code> trong SWAP.</li>
+<li>Set page table entry tương ứng với <code>vicpgn</code> bằng hàm <code>pte_set_swap</code>, thêm <code>swpfpn</code> vào đầu danh sách <code>frm_lst</code>.</li>
 </ul>
 </li>
 <li>
@@ -218,6 +217,46 @@ Giải phóng vùng nhớ <code>rgid</code>, sử dụng khóa mutex để bảo
 <pre><code class="language-c">  int pgfree_data(struct pcb_t *proc, uint32_t reg_index)
 </code></pre>
 Thực thi hàm <code>__free</code> với <code>vmaid = 0</code> và ghi kết quả vào file output.</li>
+</ul>
+</li>
+<li><code>READ</code>
+<ul>
+<li>
+<pre><code class="language-c">  int pg_getpage(struct mm_struct *mm, int pgn, int *fpn, struct pcb_t *caller)
+</code></pre>
+<p>Lấy frame <code>fpn</code> tương ứng với page <code>pgn</code>:</p>
+<ul>
+<li>Nếu frame online (frame đang được lưu trên RAM ), trả về  <code>fpn</code>. Nếu frame offline (frame đang được lưu trên SWAP), thực thi bước kế tiếp.</li>
+<li>Tìm 1 &quot;victim&quot; page <code>vicpgn</code> trong virtual memory bằng hàm <code>find_victim_page</code> và lấy 1 free frame <code>swpfpn</code> từ SWAP. Nếu thành công, thực thi bước kế tiếp.</li>
+<li>Swap <code>vicfpn</code> tương ứng <code>vicpgn</code> trong RAM với <code>swpfpn</code> trong SWAP.</li>
+<li>Swap <code>tgtfpn</code> tương ứng <code>pgn</code> trong SWAP với <code>swpfpn</code> trong RAM.</li>
+<li>Set swap page table entry tương ứng với <code>vicpgn</code> bằng hàm <code>pte_set_swap</code>.</li>
+<li>Set frame page table entry tương ứng <code>pgn</code> bằng hàm <code>pte_set_fpn</code>.</li>
+<li>Thêm <code>pgn</code> vào danh sách <code>fifo_pgn</code> của <code>mm</code>, trả về  <code>fpn</code>.</li>
+</ul>
+<p>Hình vẽ mô tả:
+<img src="../assets/getpage.png" alt="getpage" /></p>
+</li>
+<li>
+<pre><code class="language-c">  int pg_getval(struct mm_struct *mm, int addr, BYTE *data, struct pcb_t *caller)
+</code></pre>
+<p>Lấy giá trị của ô nhớ tại địa chỉ <code>addr</code> và lưu vào <code>data</code>:</p>
+<ul>
+<li>Lấy page number và page offset từ <code>addr</code>.</li>
+<li>Lấy frame number trong RAM hoặc SWAP tương ứng với page number trong virtual memory bằng hàm <code>pg_getpage</code>.</li>
+<li>Nếu thành công, kết hợp frame number và page offset trả về physical memory. Đọc giá trị của địa chỉ vật lý này trong bộ nhớ vật lý bằng hàm <code>MEMPHY_read</code>.</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-c">  int __read(struct pcb_t *caller, int vmaid, int rgid, int offset, BYTE *data)
+</code></pre>
+<p>Thực thi hàm <code>getval</code> để đọc 1 byte giá trị ô nhớ ở vị trí <code>offset</code> trong vùng nhớ <code>rgid</code> vào <code>data</code>, sử dụng khóa mutex để bảo vệ virtual memory.</p>
+</li>
+<li>
+<pre><code class="language-c">  int pgread(struct pcb_t *proc, uint32_t source, uint32_t offset, uint32_t destination)
+</code></pre>
+<p>Thực thi hàm <code>__read</code> với <code>vmaid = 0</code> và ghi kết quả vào file output.</p>
+</li>
 </ul>
 </li>
 </ul>
