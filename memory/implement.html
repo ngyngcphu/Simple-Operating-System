@@ -135,6 +135,75 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="ii-triển-khai"><a class="header" href="#ii-triển-khai">II. Triển khai</a></h2>
+<ul>
+<li><code>ALLOC</code>
+<ul>
+<li>
+<pre><code class="language-c">  int find_victim_page(struct mm_struct *mm, int *retpgn)
+</code></pre>
+Tìm một &quot;victim&quot; page trong virtual memory:
+<ul>
+<li>Lấy một page từ cuối hàng đợi <code>fifo_pgn</code> mà <code>mm</code> đang quản lý, lưu số thứ tự của page đó vào <code>retpgn</code>.</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-c">  int alloc_pages_range(struct pcb_t *caller, int req_pgnum, struct framephy_struct **frm_lst)
+</code></pre>
+Cấp phát các frame trên RAM và lưu trong danh sách <code>frm_lst</code>:
+<ul>
+<li>Lặp qua <code>req_pgnum</code> lần. Ở mỗi bước lặp, kiểm tra có thể cấp phát 1 frame trong RAM. Nếu được, thêm frame vừa được cấp phát vào đầu danh sách <code>frm_lst</code>. Nếu không, thực thi bước kế tiếp.</li>
+<li>Tìm một frame trong RAM và thay thế nó bằng frame trong SWAP. Việc lựa chọn một frame cần tìm một page &quot;victim&quot; trong virtual memory bằng hàm <code>find_victim_page</code>.<br />
+<code>Note: Việc sử dụng logic trong hàm find_victim_page là sai vì frame được thay thế không theo cơ chế FIFO của RAM -&gt; Cần điều chỉnh.</code></li>
+<li>Nếu việc tìm &quot;victim&quot; page hoặc lấy một frame trong SWAP thất bại thì giải phóng toàn bộ các frame đã được cấp phát trước đó và trả về lỗi.</li>
+<li>Lấy frame tương ứng với &quot;victim&quot; page, swap với frame trong SWAP.</li>
+<li>Set page table entry tương ứng với &quot;victim&quot; page bằng hàm <code>pte_set_swap</code>, thêm frame vừa được swap lên RAM vào đầu danh sách <code>frm_lst</code>.</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-c">  int vmap_page_range(struct pcb_t *caller, int addr, int pgnum, struct framephy_struct *frames, struct vm_rg_struct *ret_rg)
+</code></pre>
+Mapping các page tại địa chỉ <code>addr</code> với các frame trong danh sách <code>frames</code>:
+<ul>
+<li>Duyệt qua các page, set frame page table entry tương ứng với các page bằng hàm <code>pte_set_fpn</code>. Sau đó chèn các page đó theo thứ tự vào đầu danh sách <code>fifo_pgn</code>.</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-c">  int vm_map_ram(struct pcb_t *caller, int astart, int aend, int mapstart, int incpgnum, struct vm_rg_struct *ret_rg)
+</code></pre>
+Mapping virtual memory có kích thước <code>aend - astart</code> với RAM:
+<ul>
+<li>Cấp phát trên RAM số lượng frame bằng với số page <code>incpgnum</code> trên virtual memory bằng hàm <code>alloc_pages_range</code>, lưu các frame sau khi cấp phát thành một danh sách <code>frm_lst</code>.</li>
+<li>Nếu cấp phát thành công, map các page tại địa chỉ <code>mapstart</code> với các frame trong danh sách <code>frm_lst</code> bằng hàm <code>vmap_page_range</code>.</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-c">  int inc_vma_limit(struct pcb_t *caller, int vmaid, int inc_sz)
+</code></pre>
+Tăng kích thước vùng nhớ của <code>vmaid</code> lên một khoảng bằng <code>inc_sz</code>:
+<ul>
+<li>Kiểm tra <code>vmaid</code> nếu tăng kích thước có bị tràn qua các vmaid lân cận. Nếu có, trả về lỗi (return -1), ngược lại thực thi bước kế tiếp.</li>
+<li>Dịch con trỏ <code>sbrk</code> và <code>vm_end</code> của <code>vmaid</code> lên thêm 1 khoảng bằng <code>inc_sz</code>.</li>
+<li>Tiến hành mapping virtual memory vừa được cấp phát sang physical memory trên RAM bằng hàm <code>vm_map_ram</code>.</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-c">  int __alloc(struct pcb_t *caller, int vmaid, int rgid, int size, int *alloc_addr)
+</code></pre>
+Cấp phát cho region <code>rgid</code> một vùng nhớ với kích thước <code>size</code>, khóa mutex để bảo vệ virtual memory:
+<ul>
+<li>Nếu kích thước vùng nhớ trống của area <code>vmaid</code> &gt;= <code>size</code> thì cấp phát thành công.</li>
+<li>Nếu không đủ vùng nhớ, tăng kích thước của area <code>vmaid</code> lên một khoảng bằng số lượng page vừa đủ chứa <code>size</code> bằng hàm <code>inc_vma_limit</code>.</li>
+<li>Sau khi tăng kích thước thành công, cấp phát <code>size</code> cho <code>rgid</code>.</li>
+<li>Thêm fragment do paging gây ra sau khi cấp phát (nếu có) vào danh sách <code>vm_freerg_list</code> của <code>mm</code>, mở khóa mutex.</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-c">  int pgalloc(struct pcb_t *proc, uint32_t size, uint32_t reg_index)
+</code></pre>
+Thực thi hàm <code>__alloc</code> với <code>vmaid = 0</code> và ghi kết quả vào file output.</li>
+</ul>
+</li>
+</ul>
 
                     </main>
 
