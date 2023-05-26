@@ -135,6 +135,185 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="iii-kết-quả"><a class="header" href="#iii-kết-quả">III. Kết quả</a></h2>
+<ol>
+<li>TEST 1:</li>
+</ol>
+<ul>
+<li>Input</li>
+</ul>
+<table>
+<td>
+<pre><code>os_1_singleCPU_mlq:
+2 1  8
+1 s4   4
+2 s3   3
+4 m1s  2
+6 s2   3
+7 m0s  3
+9 p1s  2
+11 s0  1
+16 s1  0
+</code></pre>
+</td>
+</table>
+<ul>
+<li>Output: Kết quả chi tiết trong <code>/output/os_1_singleCPU_mlq.output</code><br />
+Show RAM:
+<ul>
+<li>Time slot 6: CPU thực thi lệnh <code>alloc 300 0</code> của process <code>m1s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER ALLOCATION =====
+PID=3 - Region=0 - Address=00000000 - Size=300 byte
+print_pgtbl: 0 - 512
+00000000: 80000001
+00000004: 80000000
+Page Number: 0 -&gt; Frame Number: 1
+Page Number: 1 -&gt; Frame Number: 0
+================================================================
+</code></pre>
+<ul>
+<li>Time slot 7: CPU thực thi lệnh <code>alloc 100 1</code> của process <code>m1s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER ALLOCATION =====
+PID=3 - Region=1 - Address=0000012c - Size=100 byte
+print_pgtbl: 0 - 512
+00000000: 80000001
+00000004: 80000000
+Page Number: 0 -&gt; Frame Number: 1
+Page Number: 1 -&gt; Frame Number: 0
+================================================================
+</code></pre>
+<ul>
+<li>Time slot 8: CPU thực thi lệnh <code>free 0</code> của process <code>m1s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER DEALLOCATION =====
+PID=3 - Region=0
+print_pgtbl: 0 - 512
+00000000: 80000001
+00000004: 80000000
+Page Number: 0 -&gt; Frame Number: 1
+Page Number: 1 -&gt; Frame Number: 0
+================================================================
+</code></pre>
+<ul>
+<li>Time slot 9: CPU thực thi lệnh <code>alloc 100 2</code> của process <code>m1s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER ALLOCATION =====
+PID=3 - Region=2 - Address=00000000 - Size=100 byte
+print_pgtbl: 0 - 512
+00000000: 80000001
+00000004: 80000000
+Page Number: 0 -&gt; Frame Number: 1
+Page Number: 1 -&gt; Frame Number: 0
+================================================================
+</code></pre>
+<ul>
+<li>Time slot 34: CPU thực thi lệnh <code>free 2</code> của process <code>m1s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER DEALLOCATION =====
+PID=3 - Region=2
+print_pgtbl: 0 - 512
+00000000: 80000001
+00000004: 80000000
+Page Number: 0 -&gt; Frame Number: 1
+Page Number: 1 -&gt; Frame Number: 0
+================================================================
+</code></pre>
+<ul>
+<li>Time slot 35: CPU thực thi lệnh <code>free 1</code> của process <code>m1s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER DEALLOCATION =====
+PID=3 - Region=1
+print_pgtbl: 0 - 512
+00000000: 80000001
+00000004: 80000000
+Page Number: 0 -&gt; Frame Number: 1
+Page Number: 1 -&gt; Frame Number: 0
+================================================================
+</code></pre>
+<ul>
+<li>Time slot 48: CPU thực thi lệnh <code>alloc 300 0</code> của process <code>m0s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER ALLOCATION =====
+PID=5 - Region=0 - Address=00000000 - Size=300 byte
+print_pgtbl: 0 - 512
+00000000: 80000003
+00000004: 80000002
+Page Number: 0 -&gt; Frame Number: 3
+Page Number: 1 -&gt; Frame Number: 2
+================================================================
+</code></pre>
+<ul>
+<li>Time slot 49: CPU thực thi lệnh <code>alloc 100 1</code> của process <code>m0s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER ALLOCATION =====
+PID=5 - Region=1 - Address=0000012c - Size=100 byte
+print_pgtbl: 0 - 512
+00000000: 80000003
+00000004: 80000002
+Page Number: 0 -&gt; Frame Number: 3
+Page Number: 1 -&gt; Frame Number: 2
+================================================================
+</code></pre>
+<ul>
+<li>Time slot 54: CPU thực thi lệnh <code>free 0</code> của process <code>m0s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER DEALLOCATION =====
+PID=5 - Region=0
+print_pgtbl: 0 - 512
+00000000: 80000003
+00000004: 80000002
+Page Number: 0 -&gt; Frame Number: 3
+Page Number: 1 -&gt; Frame Number: 2
+================================================================
+</code></pre>
+<ul>
+<li>Time slot 55: CPU thực thi lệnh <code>alloc 100 2</code> của process <code>m0s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER ALLOCATION =====
+PID=5 - Region=2 - Address=00000000 - Size=100 byte
+print_pgtbl: 0 - 512
+00000000: 80000003
+00000004: 80000002
+Page Number: 0 -&gt; Frame Number: 3
+Page Number: 1 -&gt; Frame Number: 2
+================================================================
+</code></pre>
+<ul>
+<li>Time slot 60: CPU thực thi lệnh <code>write 102 1 20</code> của process <code>m0s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER WRITING =====
+write region=1 offset=20 value=102
+print_pgtbl: 0 - 512
+00000000: 80000003
+00000004: 80000002
+Page Number: 0 -&gt; Frame Number: 3
+Page Number: 1 -&gt; Frame Number: 2
+================================================================
+===== PHYSICAL MEMORY DUMP =====
+BYTE 00000240: 102
+===== PHYSICAL MEMORY END-DUMP =====
+================================================================
+</code></pre>
+<ul>
+<li>Time slot 61: CPU thực thi lệnh <code>write 102 1 1000</code> của process <code>m0s</code></li>
+</ul>
+<pre><code class="language-sh">===== PHYSICAL MEMORY AFTER WRITING =====
+write region=2 offset=1000 value=1
+print_pgtbl: 0 - 512
+00000000: c0000000
+00000004: 80000002
+Page Number: 0 -&gt; Frame Number: 0
+Page Number: 1 -&gt; Frame Number: 2
+================================================================
+===== PHYSICAL MEMORY DUMP =====
+BYTE 00000240: 102
+BYTE 000003e8: 1
+===== PHYSICAL MEMORY END-DUMP =====
+================================================================
+</code></pre>
+</li>
+</ul>
 
                     </main>
 
