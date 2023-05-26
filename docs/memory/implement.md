@@ -36,12 +36,23 @@
     - ```c
         int __alloc(struct pcb_t *caller, int vmaid, int rgid, int size, int *alloc_addr)
         ```
-        Cấp phát cho region ```rgid``` một vùng nhớ với kích thước ```size```, khóa mutex để bảo vệ virtual memory:
-        - Nếu kích thước vùng nhớ trống của area ```vmaid``` >= ```size``` thì cấp phát thành công.
+        Cấp phát cho region ```rgid``` một vùng nhớ với kích thước ```size```, sử dụng khóa mutex để bảo vệ virtual memory:
+        - Nếu kích thước vùng nhớ trống của area ```vmaid >= size``` thì cấp phát thành công.
         - Nếu không đủ vùng nhớ, tăng kích thước của area ```vmaid``` lên một khoảng bằng số lượng page vừa đủ chứa ```size``` bằng hàm ```inc_vma_limit```.
         - Sau khi tăng kích thước thành công, cấp phát ```size``` cho ```rgid```.
-        - Thêm fragment do paging gây ra sau khi cấp phát (nếu có) vào danh sách ```vm_freerg_list``` của ```mm```, mở khóa mutex.
+        - Thêm fragment do paging gây ra sau khi cấp phát (nếu có) vào danh sách ```vm_freerg_list``` của ```mm```.
     - ```c
         int pgalloc(struct pcb_t *proc, uint32_t size, uint32_t reg_index)
         ```
         Thực thi hàm ```__alloc``` với ```vmaid = 0``` và ghi kết quả vào file output.
+- ```FREE```
+    - ```c
+        int __free(struct pcb_t *caller, int vmaid, int rgid)
+        ```
+        Giải phóng vùng nhớ ```rgid```, sử dụng khóa mutex để bảo vệ virtual memory:
+        - Nếu ```rgid < 0``` hoặc ```rgid > PAGING_MAX_SYMTBL_SZ``` hoặc ``` size rgid = 0```, trả về lỗi (return -1).
+        - Gán kích thước của vùng nhớ ```rgid``` bằng 0, thêm vùng nhớ vừa được giải phóng vào danh sách ```vm_freerg_list``` mà ```mm``` quản lý.
+    - ```c
+        int pgfree_data(struct pcb_t *proc, uint32_t reg_index)
+        ```
+        Thực thi hàm ```__free``` với ```vmaid = 0``` và ghi kết quả vào file output.
