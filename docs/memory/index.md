@@ -13,7 +13,7 @@
     - ```ALLOC```: cấp phát 1 region memory.
     - ```FREE```: giải phóng 1 region memory.
     - ```READ```: đọc 1 byte giá trị tại 1 ô nhớ trong region memory.
-    - ```WRITE```: viết 1 byte giá trị vào 1 ô nhớ trong region memory.
+    - ```WRITE```: ghi 1 byte giá trị vào 1 ô nhớ trong region memory.
 ### 2. MM-Memory Management
 - Mỗi process có 1 module Memory Management với vai trò mapping virtual address sang physical address, cụ thể:
     - Giữ địa chỉ page table directory của process. Page table sẽ ánh xạ mỗi logical address sang page table entry.
