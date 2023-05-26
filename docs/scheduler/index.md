@@ -1,6 +1,6 @@
 # Scheduler
 
-## I. Giải thuật sử dụng: 
+## I. Giải thuật sử dụng
     Multi-Level Queue (MFQ)
 ## II. Mô tả giải thuật
 - Mỗi process với cùng độ ưu tiên sẽ được đặt vào cùng một hàng đợi ready-queue.
