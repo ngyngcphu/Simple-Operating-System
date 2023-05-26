@@ -518,18 +518,35 @@ Tăng kích thước vùng nhớ của <code>vmaid</code> lên một khoảng b�
 <li>
 <pre><code class="language-c">  int __alloc(struct pcb_t *caller, int vmaid, int rgid, int size, int *alloc_addr)
 </code></pre>
-Cấp phát cho region <code>rgid</code> một vùng nhớ với kích thước <code>size</code>, khóa mutex để bảo vệ virtual memory:
+Cấp phát cho region <code>rgid</code> một vùng nhớ với kích thước <code>size</code>, sử dụng khóa mutex để bảo vệ virtual memory:
 <ul>
-<li>Nếu kích thước vùng nhớ trống của area <code>vmaid</code> &gt;= <code>size</code> thì cấp phát thành công.</li>
+<li>Nếu kích thước vùng nhớ trống của area <code>vmaid &gt;= size</code> thì cấp phát thành công.</li>
 <li>Nếu không đủ vùng nhớ, tăng kích thước của area <code>vmaid</code> lên một khoảng bằng số lượng page vừa đủ chứa <code>size</code> bằng hàm <code>inc_vma_limit</code>.</li>
 <li>Sau khi tăng kích thước thành công, cấp phát <code>size</code> cho <code>rgid</code>.</li>
-<li>Thêm fragment do paging gây ra sau khi cấp phát (nếu có) vào danh sách <code>vm_freerg_list</code> của <code>mm</code>, mở khóa mutex.</li>
+<li>Thêm fragment do paging gây ra sau khi cấp phát (nếu có) vào danh sách <code>vm_freerg_list</code> của <code>mm</code>.</li>
 </ul>
 </li>
 <li>
 <pre><code class="language-c">  int pgalloc(struct pcb_t *proc, uint32_t size, uint32_t reg_index)
 </code></pre>
 Thực thi hàm <code>__alloc</code> với <code>vmaid = 0</code> và ghi kết quả vào file output.</li>
+</ul>
+</li>
+<li><code>FREE</code>
+<ul>
+<li>
+<pre><code class="language-c">  int __free(struct pcb_t *caller, int vmaid, int rgid)
+</code></pre>
+Giải phóng vùng nhớ <code>rgid</code>, sử dụng khóa mutex để bảo vệ virtual memory:
+<ul>
+<li>Nếu <code>rgid &lt; 0</code> hoặc <code>rgid &gt; PAGING_MAX_SYMTBL_SZ</code> hoặc <code> size rgid = 0</code>, trả về lỗi (return -1).</li>
+<li>Gán kích thước của vùng nhớ <code>rgid</code> bằng 0, thêm vùng nhớ vừa được giải phóng vào danh sách <code>vm_freerg_list</code> mà <code>mm</code> quản lý.</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-c">  int pgfree_data(struct pcb_t *proc, uint32_t reg_index)
+</code></pre>
+Thực thi hàm <code>__free</code> với <code>vmaid = 0</code> và ghi kết quả vào file output.</li>
 </ul>
 </li>
 </ul>
