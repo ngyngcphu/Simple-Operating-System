@@ -31,3 +31,10 @@
     2. Bất lợi:
         - Internal fragmentation vẫn xảy ra vì kích thước trang là cố định.
         - Tăng độ phức tạp của việc quản lý.
+### 3. MEMPHY-Memory Physical
+- Không gian địa chỉ bộ nhớ vật lý bao gồm:
+    - RAM: Bộ nhớ chính, có thể được truy xuất trực tiếp bởi CPU.
+    - SWAP: Bộ nhớ thứ cấp, không được truy xuất trực tiếp bởi CPU, kích thước lớn hơn RAM và số lượng nhiều (assignment dùng 4 SWAP).
+- Các opearions trên physical memory bao gồm:
+    - ```READ```: directly đối với RAM và sequentially đối với SWAP.
+    - ```WRITE```: directly đối với RAM và sequentially đối với SWAP.
