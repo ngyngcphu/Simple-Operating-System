@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="scheduler/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="appendix/index.html"><strong aria-hidden="true">2.</strong> Appendix</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="scheduler/index.html"><strong aria-hidden="true">1.</strong> Scheduler</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="scheduler/implement.html"><strong aria-hidden="true">1.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="scheduler/result.html"><strong aria-hidden="true">1.2.</strong> Result</a></li></ol></li><li class="chapter-item expanded "><a href="memory/index.html"><strong aria-hidden="true">2.</strong> Memory</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -159,33 +159,236 @@
 <li>Not starvation: Mỗi ready-queue có số lần slot nhất định trong chu kì thực thi của các hàng đợi.</li>
 <li>Fairly: Giải thuật cho mỗi hàng đợi là Round Robin.</li>
 </ul>
-<h2 id="iv-triển-khai"><a class="header" href="#iv-triển-khai">IV. Triển khai</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="iv-triển-khai"><a class="header" href="#iv-triển-khai">IV. Triển khai</a></h1>
 <ol>
 <li>Priority Queue
 <ul>
-<li>void enqueue(struct queue_t *q, struct pcb_t *proc): Thêm 1 process proc vào cuối hàng đợi q.</li>
-<li>struct pcb_t *dequeue(struct queue_t *q): Lấy 1 process từ đầu hàng đợi q.</li>
+<li><code>void enqueue(struct queue_t *q, struct pcb_t *proc)</code>: Thêm 1 process proc vào cuối hàng đợi q.</li>
+<li><code>struct pcb_t *dequeue(struct queue_t *q)</code>: Lấy 1 process từ đầu hàng đợi q.</li>
 </ul>
 </li>
 <li>Scheduler
 <ul>
-<li>struct pcb_t *get_mlq_proc(void): Lấy 1 process từ ready-queue theo <strong>MLQ policy</strong>, sử dụng khóa mutex để bảo vệ hàng đợi.</li>
+<li><code>struct pcb_t *get_mlq_proc(void)</code>: Lấy 1 process từ ready-queue theo <strong>MLQ policy</strong>, sử dụng khóa mutex để bảo vệ hàng đợi.</li>
 </ul>
 </li>
 </ol>
-<h2 id="v-kết-quả"><a class="header" href="#v-kết-quả">V. Kết quả</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="v-kết-quả"><a class="header" href="#v-kết-quả">V. Kết quả</a></h2>
 <ol>
-<li>TEST 0:</li>
+<li>TEST 1:</li>
 </ol>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="appendix"><a class="header" href="#appendix">Appendix</a></h1>
-<p>Đây là Input và Output trong Simple Operating System</p>
-<ol>
-<li>Input:<br />
-| Cột 1     | Cột 2     | Cột 3     |
-|-----------|-----------|-----------|
-| Giá trị 1 | Giá trị 2 | Giá trị 3 |
-| Giá trị 4 | Giá trị 5 | Giá trị 6 |</li>
+<ul>
+<li>Input</li>
+</ul>
+<table>
+<tr>
+<td>
+<pre><code>sched:
+4 2 3
+0 p1s 1
+1 p2s 0
+2 p3s 0
+</code></pre>
+</td>
+<td>
+<pre><code>p1s:
+1 10
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>p2s:
+20 12
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>p3s:
+7 11
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+</tr>
+</table>
+<ul>
+<li>Output: Kết quả chi tiết trong <code>/output/sched.output</code>.<br />
+Gantt diagram:<br />
+<img src="scheduler/../assets/sched.png" alt="sched" /></li>
+</ul>
+<ol start="2">
+<li>TEST 2:</li>
 </ol>
+<ul>
+<li>Input</li>
+</ul>
+<table>
+<tr>
+<td>
+<pre><code>sched_0:
+2 1 2
+0 s0 4
+4 s1 0
+</code></pre>
+</td>
+<td>
+<pre><code>s0:
+12 15
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>s1:
+20 7
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+</tr>
+</table>
+<ul>
+<li>Output: Kết quả chi tiết trong <code>/output/sched_0.output</code>.<br />
+Gantt diagram:<br />
+<img src="scheduler/../assets/sched_0.png" alt="sched" /></li>
+</ul>
+<ol start="3">
+<li>TEST 3:</li>
+</ol>
+<ul>
+<li>Input</li>
+</ul>
+<table>
+<tr>
+<td>
+<pre><code>sched_1:
+2 1 4
+0 s0 4
+4 s1 0
+6 s2 0
+7 s3 0
+</code></pre>
+</td>
+<td>
+<pre><code>s0:
+12 15
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>s1:
+20 7
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>s2:
+20 12
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>s3:
+7 11
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+</tr>
+</table>
+<ul>
+<li>Output: Kết quả chi tiết trong <code>/output/sched_1.output</code>.<br />
+Gantt diagram:<br />
+<img src="scheduler/../assets/sched_1.png" alt="sched" /></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="memory-management"><a class="header" href="#memory-management">Memory Management</a></h1>
 
                     </main>
 

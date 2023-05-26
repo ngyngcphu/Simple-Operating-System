@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - Simple Operating System</title>
+        <title>Scheduler - Simple Operating System</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="scheduler/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="appendix/index.html"><strong aria-hidden="true">2.</strong> Appendix</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="scheduler/index.html"><strong aria-hidden="true">1.</strong> Scheduler</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="scheduler/implement.html"><strong aria-hidden="true">1.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="scheduler/result.html"><strong aria-hidden="true">1.2.</strong> Result</a></li></ol></li><li class="chapter-item expanded "><a href="memory/index.html"><strong aria-hidden="true">2.</strong> Memory</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -158,30 +158,12 @@
 <li>Not starvation: Mỗi ready-queue có số lần slot nhất định trong chu kì thực thi của các hàng đợi.</li>
 <li>Fairly: Giải thuật cho mỗi hàng đợi là Round Robin.</li>
 </ul>
-<h2 id="iv-triển-khai"><a class="header" href="#iv-triển-khai">IV. Triển khai</a></h2>
-<ol>
-<li>Priority Queue
-<ul>
-<li>void enqueue(struct queue_t *q, struct pcb_t *proc): Thêm 1 process proc vào cuối hàng đợi q.</li>
-<li>struct pcb_t *dequeue(struct queue_t *q): Lấy 1 process từ đầu hàng đợi q.</li>
-</ul>
-</li>
-<li>Scheduler
-<ul>
-<li>struct pcb_t *get_mlq_proc(void): Lấy 1 process từ ready-queue theo <strong>MLQ policy</strong>, sử dụng khóa mutex để bảo vệ hàng đợi.</li>
-</ul>
-</li>
-</ol>
-<h2 id="v-kết-quả"><a class="header" href="#v-kết-quả">V. Kết quả</a></h2>
-<ol>
-<li>TEST 0:</li>
-</ol>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="next" href="appendix/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="scheduler/implement.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -190,7 +172,7 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="next" href="appendix/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="scheduler/implement.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

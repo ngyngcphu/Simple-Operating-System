@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Appendix - Simple Operating System</title>
+        <title>Result - Simple Operating System</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../scheduler/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../appendix/index.html" class="active"><strong aria-hidden="true">2.</strong> Appendix</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../scheduler/index.html"><strong aria-hidden="true">1.</strong> Scheduler</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../scheduler/implement.html"><strong aria-hidden="true">1.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="../scheduler/result.html" class="active"><strong aria-hidden="true">1.2.</strong> Result</a></li></ol></li><li class="chapter-item expanded "><a href="../memory/index.html"><strong aria-hidden="true">2.</strong> Memory</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,22 +134,231 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="appendix"><a class="header" href="#appendix">Appendix</a></h1>
-<p>Đây là Input và Output trong Simple Operating System</p>
+                        <h2 id="v-kết-quả"><a class="header" href="#v-kết-quả">V. Kết quả</a></h2>
 <ol>
-<li>Input:<br />
-| Cột 1     | Cột 2     | Cột 3     |
-|-----------|-----------|-----------|
-| Giá trị 1 | Giá trị 2 | Giá trị 3 |
-| Giá trị 4 | Giá trị 5 | Giá trị 6 |</li>
+<li>TEST 1:</li>
 </ol>
+<ul>
+<li>Input</li>
+</ul>
+<table>
+<tr>
+<td>
+<pre><code>sched:
+4 2 3
+0 p1s 1
+1 p2s 0
+2 p3s 0
+</code></pre>
+</td>
+<td>
+<pre><code>p1s:
+1 10
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>p2s:
+20 12
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>p3s:
+7 11
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+</tr>
+</table>
+<ul>
+<li>Output: Kết quả chi tiết trong <code>/output/sched.output</code>.<br />
+Gantt diagram:<br />
+<img src="../assets/sched.png" alt="sched" /></li>
+</ul>
+<ol start="2">
+<li>TEST 2:</li>
+</ol>
+<ul>
+<li>Input</li>
+</ul>
+<table>
+<tr>
+<td>
+<pre><code>sched_0:
+2 1 2
+0 s0 4
+4 s1 0
+</code></pre>
+</td>
+<td>
+<pre><code>s0:
+12 15
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>s1:
+20 7
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+</tr>
+</table>
+<ul>
+<li>Output: Kết quả chi tiết trong <code>/output/sched_0.output</code>.<br />
+Gantt diagram:<br />
+<img src="../assets/sched_0.png" alt="sched" /></li>
+</ul>
+<ol start="3">
+<li>TEST 3:</li>
+</ol>
+<ul>
+<li>Input</li>
+</ul>
+<table>
+<tr>
+<td>
+<pre><code>sched_1:
+2 1 4
+0 s0 4
+4 s1 0
+6 s2 0
+7 s3 0
+</code></pre>
+</td>
+<td>
+<pre><code>s0:
+12 15
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>s1:
+20 7
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>s2:
+20 12
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+<td>
+<pre><code>s3:
+7 11
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+calc
+</code></pre>
+</td>
+</tr>
+</table>
+<ul>
+<li>Output: Kết quả chi tiết trong <code>/output/sched_1.output</code>.<br />
+Gantt diagram:<br />
+<img src="../assets/sched_1.png" alt="sched" /></li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../scheduler/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../scheduler/implement.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../memory/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -157,8 +366,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../scheduler/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../scheduler/implement.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../memory/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
