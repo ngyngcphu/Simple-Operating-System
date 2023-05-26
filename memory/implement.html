@@ -240,7 +240,7 @@ Thực thi hàm <code>__free</code> với <code>vmaid = 0</code> và ghi kết q
 <li>
 <pre><code class="language-c">  int pg_getval(struct mm_struct *mm, int addr, BYTE *data, struct pcb_t *caller)
 </code></pre>
-<p>Lấy giá trị của ô nhớ tại địa chỉ <code>addr</code> và lưu vào <code>data</code>:</p>
+<p>Đọc giá trị của ô nhớ tại địa chỉ <code>addr</code> và lưu vào <code>data</code>:</p>
 <ul>
 <li>Lấy page number và page offset từ <code>addr</code>.</li>
 <li>Lấy frame number trong RAM hoặc SWAP tương ứng với page number trong virtual memory bằng hàm <code>pg_getpage</code>.</li>
@@ -250,13 +250,35 @@ Thực thi hàm <code>__free</code> với <code>vmaid = 0</code> và ghi kết q
 <li>
 <pre><code class="language-c">  int __read(struct pcb_t *caller, int vmaid, int rgid, int offset, BYTE *data)
 </code></pre>
-<p>Thực thi hàm <code>getval</code> để đọc 1 byte giá trị ô nhớ ở vị trí <code>offset</code> trong vùng nhớ <code>rgid</code> vào <code>data</code>, sử dụng khóa mutex để bảo vệ virtual memory.</p>
+<p>Thực thi hàm <code>pg_getval</code> để đọc 1 byte giá trị ô nhớ ở vị trí <code>offset</code> trong vùng nhớ <code>rgid</code> vào <code>data</code>, sử dụng khóa mutex để bảo vệ virtual memory.</p>
 </li>
 <li>
 <pre><code class="language-c">  int pgread(struct pcb_t *proc, uint32_t source, uint32_t offset, uint32_t destination)
 </code></pre>
 <p>Thực thi hàm <code>__read</code> với <code>vmaid = 0</code> và ghi kết quả vào file output.</p>
 </li>
+</ul>
+</li>
+<li><code>WRITE</code>
+<ul>
+<li>
+<pre><code class="language-c">  int pg_setval(struct mm_struct *mm, int addr, BYTE value, struct pcb_t *caller)
+</code></pre>
+Ghi <code>value</code> vào ô nhớ tại địa chỉ <code>addr</code>:
+<ul>
+<li>Lấy page number và page offset từ <code>addr</code>.</li>
+<li>Lấy frame number trong RAM hoặc SWAP tương ứng với page number trong virtual memory bằng hàm <code>pg_getpage</code>.</li>
+<li>Nếu thành công, kết hợp frame number và page offset trả về physical memory. Ghi <code>value</code> vào địa chỉ vật lý này trong bộ nhớ vật lý bằng hàm <code>MEMPHY_write</code>.</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-c">  int __write(struct pcb_t *caller, int vmaid, int rgid, int offset, BYTE value)
+</code></pre>
+Thực thi hàm <code>pg_setval</code> để ghi 1 byte <code>value</code> vào ô nhớ ở vị trí <code>offset</code> trong vùng nhớ <code>rgid</code>, sử dụng khóa mutex để bảo vệ virtual memory.</li>
+<li>
+<pre><code class="language-c">  int pgwrite(struct pcb_t *proc, BYTE data, uint32_t destination, uint32_t offset)
+</code></pre>
+Thực thi hàm <code>__write</code> với <code>vmaid = 0</code> và ghi kết quả vào file output.</li>
 </ul>
 </li>
 </ul>
