@@ -147,7 +147,7 @@
 </li>
 <li>Lợi ích của việc thiết kế multiple segments:
 <ul>
-<li>Tổ chức bộ nhớ tốt hơn, dễ dàng quản lý và truy xuất dữ liệu: Stack segment quản lý các local variables và các function calls, Heap segment quản lý việc cấp phát động, Code segment quản lý các câu lệnh được thực thi,... Ngoài ra còn giúp hạn chế external fragmentation.</li>
+<li>Tổ chức bộ nhớ tốt hơn, dễ dàng quản lý và truy xuất dữ liệu: Stack segment quản lý các local variables và các function calls, Heap segment quản lý việc cấp phát động, Code segment quản lý các câu lệnh được thực thi,...</li>
 <li>Giảm context switching: Khi CPU switch giữa các processes hoặc threads, chỉ những segments cần thiết mới được restore trở lại CPU để tiếp tục thực thi. Điều này hiệu quả và nhanh hơn thay vì restore toàn bộ không gian địa chỉ.</li>
 </ul>
 </li>
@@ -159,7 +159,40 @@
 <li><code>WRITE</code>: viết 1 byte giá trị vào 1 ô nhớ trong region memory.</li>
 </ul>
 </li>
-<li></li>
+</ul>
+<h3 id="2-mm-memory-management"><a class="header" href="#2-mm-memory-management">2. MM-Memory Management</a></h3>
+<ul>
+<li>Mỗi process có 1 module Memory Management với vai trò mapping virtual address sang physical address, cụ thể:
+<ul>
+<li>Giữ địa chỉ page table directory của process. Page table sẽ ánh xạ mỗi logical address sang page table entry.</li>
+<li>Quản lý địa chỉ các virtual memory area (segment) của process.</li>
+<li>Quản lý các memory region đang được sử dụng của process.</li>
+<li>Quản lý danh sách các page được map với frame trong physical memory theo cơ chế FIFO.</li>
+</ul>
+</li>
+<li>Memory Management quản lý logical address theo cơ chế paging (mỗi page là một không gian địa chỉ với kích thước cố định). Cấu trúc logical address 22 bit trong assignment được chia thành 2 mức, bao gồm 14 bit page number và 8 bit page offset.</li>
+<li>Có những lợi ích và bất lợi nếu chia logical address nhiều hơn 2 mức:
+<ul>
+<li>Giảm thiểu memory overhead: Thay vì sử dụng một page table duy nhất, ta có thể sử dụng nhiều page table nhỏ hơn, chỉ những page table được sử dụng mới được load vào physical address.</li>
+<li>Đối với các hệ thống lớn (64-bit), việc chia logical address thành nhiều mức sẽ giúp giảm thiểu memory overhead nhưng lại khó quản lý nên cũng không mang lại hiệu quả.</li>
+</ul>
+</li>
+<li>Lợi ích và bất lợi của segmentation with paging:
+<ol>
+<li>Lợi ích:
+<ul>
+<li>Quản lý các segment với các page hiệu quả hơn so với việc quản lý từng địa chỉ.</li>
+<li>Tránh external fragmentation.</li>
+</ul>
+</li>
+<li>Bất lợi:
+<ul>
+<li>Internal fragmentation vẫn xảy ra vì kích thước trang là cố định.</li>
+<li>Tăng độ phức tạp của việc quản lý.</li>
+</ul>
+</li>
+</ol>
+</li>
 </ul>
 
                     </main>
