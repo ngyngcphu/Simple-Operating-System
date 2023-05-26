@@ -10,11 +10,10 @@
         ```
         Cấp phát các frame trên RAM và lưu trong danh sách ```frm_lst```:
         - Lặp qua ```req_pgnum``` lần. Ở mỗi bước lặp, kiểm tra có thể cấp phát 1 frame trong RAM. Nếu được, thêm frame vừa được cấp phát vào đầu danh sách ```frm_lst```. Nếu không, thực thi bước kế tiếp.
-        - Tìm một frame trong RAM và thay thế nó bằng frame trong SWAP. Việc lựa chọn một frame cần tìm một page "victim" trong virtual memory bằng hàm ```find_victim_page```.   
-         ```Note: Việc sử dụng logic trong hàm find_victim_page là sai vì frame được thay thế không theo cơ chế FIFO của RAM -> Cần điều chỉnh.```
-        - Nếu việc tìm "victim" page hoặc lấy một frame trong SWAP thất bại thì giải phóng toàn bộ các frame đã được cấp phát trước đó và trả về lỗi.
-        - Lấy frame tương ứng với "victim" page, swap với frame trong SWAP.
-        - Set page table entry tương ứng với "victim" page bằng hàm ```pte_set_swap```, thêm frame vừa được swap lên RAM vào đầu danh sách ```frm_lst```.
+        - Tìm một frame ```vicfpn``` trong RAM và thay thế nó bằng một free frame ```swpfpn``` trong SWAP. Việc lựa chọn một ```vicfpn``` cần tìm một "victim" page ```vicpgn``` trong virtual memory bằng hàm ```find_victim_page```.
+        - Nếu việc tìm ```vicpgn``` hoặc lấy một ```swpfpn``` trong SWAP thất bại thì giải phóng toàn bộ các frame đã được cấp phát trước đó và trả về lỗi.
+        - Swap ```vicfpn``` trong RAM với ```swpfpn``` trong SWAP.
+        - Set page table entry tương ứng với ```vicpgn``` bằng hàm ```pte_set_swap```, thêm ```swpfpn``` vào đầu danh sách ```frm_lst```.
     - ```c
         int vmap_page_range(struct pcb_t *caller, int addr, int pgnum, struct framephy_struct *frames, struct vm_rg_struct *ret_rg)
         ```
@@ -56,3 +55,33 @@
         int pgfree_data(struct pcb_t *proc, uint32_t reg_index)
         ```
         Thực thi hàm ```__free``` với ```vmaid = 0``` và ghi kết quả vào file output.
+- ```READ```
+    - ```c
+        int pg_getpage(struct mm_struct *mm, int pgn, int *fpn, struct pcb_t *caller)
+        ```
+        Lấy frame ```fpn``` tương ứng với page ```pgn```:
+        - Nếu frame online (frame đang được lưu trên RAM ), trả về  ```fpn```. Nếu frame offline (frame đang được lưu trên SWAP), thực thi bước kế tiếp.
+        - Tìm 1 "victim" page ```vicpgn``` trong virtual memory bằng hàm ```find_victim_page``` và lấy 1 free frame ```swpfpn``` từ SWAP. Nếu thành công, thực thi bước kế tiếp.
+        - Swap ```vicfpn``` tương ứng ```vicpgn``` trong RAM với ```swpfpn``` trong SWAP.
+        - Swap ```tgtfpn``` tương ứng ```pgn``` trong SWAP với ```swpfpn``` trong RAM.
+        - Set swap page table entry tương ứng với ```vicpgn``` bằng hàm ```pte_set_swap```.
+        - Set frame page table entry tương ứng ```pgn``` bằng hàm ```pte_set_fpn```.
+        - Thêm ```pgn``` vào danh sách ```fifo_pgn``` của ```mm```, trả về  ```fpn```.  
+
+        Hình vẽ mô tả:
+        ![getpage](../assets/getpage.png)
+    - ```c
+        int pg_getval(struct mm_struct *mm, int addr, BYTE *data, struct pcb_t *caller)
+        ```
+        Lấy giá trị của ô nhớ tại địa chỉ ```addr``` và lưu vào ```data```:
+        - Lấy page number và page offset từ ```addr```.
+        - Lấy frame number trong RAM hoặc SWAP tương ứng với page number trong virtual memory bằng hàm ```pg_getpage```.
+        - Nếu thành công, kết hợp frame number và page offset trả về physical memory. Đọc giá trị của địa chỉ vật lý này trong bộ nhớ vật lý bằng hàm ```MEMPHY_read```.
+    - ```c
+        int __read(struct pcb_t *caller, int vmaid, int rgid, int offset, BYTE *data)
+        ```
+        Thực thi hàm ```getval``` để đọc 1 byte giá trị ô nhớ ở vị trí ```offset``` trong vùng nhớ ```rgid``` vào ```data```, sử dụng khóa mutex để bảo vệ virtual memory.
+    - ```c
+        int pgread(struct pcb_t *proc, uint32_t source, uint32_t offset, uint32_t destination)
+        ```
+        Thực thi hàm ```__read``` với ```vmaid = 0``` và ghi kết quả vào file output.
