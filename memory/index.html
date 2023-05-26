@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../scheduler/index.html"><strong aria-hidden="true">1.</strong> Scheduler</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../scheduler/implement.html"><strong aria-hidden="true">1.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="../scheduler/result.html"><strong aria-hidden="true">1.2.</strong> Result</a></li></ol></li><li class="chapter-item expanded "><a href="../memory/index.html" class="active"><strong aria-hidden="true">2.</strong> Memory</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../scheduler/index.html"><strong aria-hidden="true">1.</strong> Scheduler</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../scheduler/implement.html"><strong aria-hidden="true">1.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="../scheduler/result.html"><strong aria-hidden="true">1.2.</strong> Result</a></li></ol></li><li class="chapter-item expanded "><a href="../memory/index.html" class="active"><strong aria-hidden="true">2.</strong> Memory</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../memory/implement.html"><strong aria-hidden="true">2.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="../memory/result.html"><strong aria-hidden="true">2.2.</strong> Result</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -194,6 +194,21 @@
 </ol>
 </li>
 </ul>
+<h3 id="3-memphy-memory-physical"><a class="header" href="#3-memphy-memory-physical">3. MEMPHY-Memory Physical</a></h3>
+<ul>
+<li>Không gian địa chỉ bộ nhớ vật lý bao gồm:
+<ul>
+<li>RAM: Bộ nhớ chính, có thể được truy xuất trực tiếp bởi CPU.</li>
+<li>SWAP: Bộ nhớ thứ cấp, không được truy xuất trực tiếp bởi CPU, kích thước lớn hơn RAM và số lượng nhiều (assignment dùng 4 SWAP).</li>
+</ul>
+</li>
+<li>Các opearions trên physical memory bao gồm:
+<ul>
+<li><code>READ</code>: directly đối với RAM và sequentially đối với SWAP.</li>
+<li><code>WRITE</code>: directly đối với RAM và sequentially đối với SWAP.</li>
+</ul>
+</li>
+</ul>
 
                     </main>
 
@@ -201,6 +216,9 @@
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../scheduler/result.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../memory/implement.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -210,6 +228,9 @@
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                     <a rel="prev" href="../scheduler/result.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../memory/implement.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 

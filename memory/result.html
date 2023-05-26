@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Scheduler - Simple Operating System</title>
+        <title>Result - Simple Operating System</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../scheduler/index.html" class="active"><strong aria-hidden="true">1.</strong> Scheduler</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../scheduler/implement.html"><strong aria-hidden="true">1.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="../scheduler/result.html"><strong aria-hidden="true">1.2.</strong> Result</a></li></ol></li><li class="chapter-item expanded "><a href="../memory/index.html"><strong aria-hidden="true">2.</strong> Memory</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../memory/implement.html"><strong aria-hidden="true">2.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="../memory/result.html"><strong aria-hidden="true">2.2.</strong> Result</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../scheduler/index.html"><strong aria-hidden="true">1.</strong> Scheduler</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../scheduler/implement.html"><strong aria-hidden="true">1.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="../scheduler/result.html"><strong aria-hidden="true">1.2.</strong> Result</a></li></ol></li><li class="chapter-item expanded "><a href="../memory/index.html"><strong aria-hidden="true">2.</strong> Memory</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../memory/implement.html"><strong aria-hidden="true">2.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="../memory/result.html" class="active"><strong aria-hidden="true">2.2.</strong> Result</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,37 +134,14 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="scheduler"><a class="header" href="#scheduler">Scheduler</a></h1>
-<h2 id="i-giải-thuật-sử-dụng"><a class="header" href="#i-giải-thuật-sử-dụng">I. Giải thuật sử dụng:</a></h2>
-<pre><code>Multi-Level Queue (MFQ)
-</code></pre>
-<h2 id="ii-mô-tả-giải-thuật"><a class="header" href="#ii-mô-tả-giải-thuật">II. Mô tả giải thuật</a></h2>
-<ul>
-<li>Mỗi process với cùng độ ưu tiên sẽ được đặt vào cùng một hàng đợi ready-queue.</li>
-<li><strong>MLQ policy</strong>: Khi hàng đợi P thực hiện đủ số lần slot (slot = MAX_PRIORITY - prio) thì tạm dừng, chuyển thực thi cho hàng đợi Q có ưu tiên thấp hơn. Khi các hàng đợi có độ ưu tiên thấp đã thực hiện hết số lần slot cho phép sẽ quay lại lần lặp kế tiếp với P là hàng đợi có độ ưu tiên cao được thực thi trước với số lần slot được tính.</li>
-<li>CPU thực thi mỗi process theo RR-style. Sau khi hết time slice, process được đưa vào cuối hàng đợi với độ ưu tiên như cũ. CPU tiếp tục chọn process theo <strong>MLQ policy</strong> để thực thi.</li>
-</ul>
-<h2 id="iii-so-sánh-với-các-giải-thuật-scheduler-khác"><a class="header" href="#iii-so-sánh-với-các-giải-thuật-scheduler-khác">III. So sánh với các giải thuật scheduler khác</a></h2>
-<p>Nhược điểm của các giải thuật khác:</p>
-<ul>
-<li>FCFS: CPU phải thực thi 1 process liên tục cho đến khi kết thúc -&gt; tăng waiting time đối với các process có CPU burst ngắn. </li>
-<li>SJF: Không thể biết chính xác CPU time của process kế tiếp, có khả năng gây ra starvation.</li>
-<li>RR: Time slice lớn -&gt; FCFS. Time slice nhỏ -&gt; context switch.</li>
-<li>PS-normal: có khả năng gây ra starvation.</li>
-</ul>
-<p>Ưu điểm của MFQ:</p>
-<ul>
-<li>Response time: Các process có độ ưu tiên cao được thực thi trước.</li>
-<li>Not starvation: Mỗi ready-queue có số lần slot nhất định trong chu kì thực thi của các hàng đợi.</li>
-<li>Fairly: Giải thuật cho mỗi hàng đợi là Round Robin.</li>
-</ul>
+                        <h2 id="iii-kết-quả"><a class="header" href="#iii-kết-quả">III. Kết quả</a></h2>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="next" href="../scheduler/implement.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                            <a rel="prev" href="../memory/implement.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -172,8 +149,8 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="next" href="../scheduler/implement.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                    <a rel="prev" href="../memory/implement.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
                     </a>
             </nav>
 

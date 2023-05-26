@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="scheduler/index.html"><strong aria-hidden="true">1.</strong> Scheduler</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="scheduler/implement.html"><strong aria-hidden="true">1.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="scheduler/result.html"><strong aria-hidden="true">1.2.</strong> Result</a></li></ol></li><li class="chapter-item expanded "><a href="memory/index.html"><strong aria-hidden="true">2.</strong> Memory</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="scheduler/index.html"><strong aria-hidden="true">1.</strong> Scheduler</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="scheduler/implement.html"><strong aria-hidden="true">1.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="scheduler/result.html"><strong aria-hidden="true">1.2.</strong> Result</a></li></ol></li><li class="chapter-item expanded "><a href="memory/index.html"><strong aria-hidden="true">2.</strong> Memory</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="memory/implement.html"><strong aria-hidden="true">2.1.</strong> Implement</a></li><li class="chapter-item expanded "><a href="memory/result.html"><strong aria-hidden="true">2.2.</strong> Result</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -159,7 +159,7 @@
 <li>Not starvation: Mỗi ready-queue có số lần slot nhất định trong chu kì thực thi của các hàng đợi.</li>
 <li>Fairly: Giải thuật cho mỗi hàng đợi là Round Robin.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="iv-triển-khai"><a class="header" href="#iv-triển-khai">IV. Triển khai</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="iv-triển-khai"><a class="header" href="#iv-triển-khai">IV. Triển khai</a></h2>
 <ol>
 <li>Priority Queue
 <ul>
@@ -448,6 +448,23 @@ Gantt diagram:<br />
 </ol>
 </li>
 </ul>
+<h3 id="3-memphy-memory-physical"><a class="header" href="#3-memphy-memory-physical">3. MEMPHY-Memory Physical</a></h3>
+<ul>
+<li>Không gian địa chỉ bộ nhớ vật lý bao gồm:
+<ul>
+<li>RAM: Bộ nhớ chính, có thể được truy xuất trực tiếp bởi CPU.</li>
+<li>SWAP: Bộ nhớ thứ cấp, không được truy xuất trực tiếp bởi CPU, kích thước lớn hơn RAM và số lượng nhiều (assignment dùng 4 SWAP).</li>
+</ul>
+</li>
+<li>Các opearions trên physical memory bao gồm:
+<ul>
+<li><code>READ</code>: directly đối với RAM và sequentially đối với SWAP.</li>
+<li><code>WRITE</code>: directly đối với RAM và sequentially đối với SWAP.</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="ii-triển-khai"><a class="header" href="#ii-triển-khai">II. Triển khai</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="iii-kết-quả"><a class="header" href="#iii-kết-quả">III. Kết quả</a></h2>
 
                     </main>
 
